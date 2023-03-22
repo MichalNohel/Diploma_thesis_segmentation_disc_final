@@ -153,12 +153,14 @@ if __name__ == "__main__":
         train_dice_cup.append(np.mean(dice_tmp_cup)) 
            
         #%%
+        
         #Test dataset
         # Definition of temporal variables
         loss_tmp = []            
         dice_tmp_disc = []          
         dice_tmp_cup = []      
         
+                
         for kk,(data,data_orig, lbl, img_full, img_orig_full, disc_orig, cup_orig, coordinates) in enumerate(testloader):
             with torch.no_grad():
                 it_test+=1
@@ -300,94 +302,15 @@ if __name__ == "__main__":
                     plt.show()
 
 
+                    
                     #%%
-                    '''
-                    plt.figure(figsize=[10,10])
-                    plt.subplot(4,4,1)    
-                    im_pom_orig=img_orig_full[0,:,:,:].numpy()/255   
-                    plt.imshow(im_pom_orig)   
-                    plt.title("Orig " +str(kk))
-                    
-                    plt.subplot(4,4,2)
-                    im_pom=img_full[0,:,:,:].detach().cpu().numpy()/255   
-                    plt.imshow(im_pom)   
-                    plt.title("Modified "+ str(kk))
-                        
-                    plt.subplot(4,4,3)    
-                    plt.imshow(disc_orig)
-                    plt.title('Orig mask disc')
-                        
-                    plt.subplot(4,4,4)    
-                    plt.imshow(output_mask_disc)
-                    plt.title('Output of net disc')
-                    
-                    plt.subplot(4,4,5)    
-                    im_pom_orig=img_orig_full[0,:,:,:].numpy()/255   
-                    plt.imshow(im_pom_orig)   
-                    plt.title("Orig " +str(kk))
-                    
-                    plt.subplot(4,4,6)
-                    im_pom=img_full[0,:,:,:].detach().cpu().numpy()/255   
-                    plt.imshow(im_pom)   
-                    plt.title("Modified "+ str(kk))
-                        
-                    plt.subplot(4,4,7)    
-                    plt.imshow(cup_orig)
-                    plt.title('Orig mask disc')
-                        
-                    plt.subplot(4,4,8)    
-                    plt.imshow(output_mask_cup)
-                    plt.title('Output of net cup')
-                    
-                    plt.subplot(4,4,9)  
-                    data_pom_orig=data_orig[0,:,:,:].numpy()/255  
-                    data_pom_orig=np.transpose(data_pom_orig,(1,2,0))
-                    plt.imshow(data_pom_orig)  
-                    plt.title("Orig " +str(kk)+ " detail")
-                        
-                    plt.subplot(4,4,10) 
-                    data_pom=data[0,:,:,:].detach().cpu().numpy()/255  
-                    data_pom=np.transpose(data_pom,(1,2,0))
-                    plt.imshow(data_pom)  
-                    plt.title("Modified "+ str(kk)+" detail")
-                    
-                    plt.subplot(4,4,11)                       
-                    plt.imshow(lbl[0,0,:,:].detach().cpu().numpy())
-                    plt.title('Orig mask disc')
-                    
-                    plt.subplot(4,4,12)                       
-                    plt.imshow(output[0,0,:,:])
-                    plt.title('Output of net disc')
-                    
-                    plt.subplot(4,4,13)  
-                    data_pom_orig=data_orig[0,:,:,:].numpy()/255  
-                    data_pom_orig=np.transpose(data_pom_orig,(1,2,0))
-                    plt.imshow(data_pom_orig) 
-                    plt.title("Orig " +str(kk)+ " detail")
-                    
-                    plt.subplot(4,4,14)  
-                    data_pom=data[0,:,:,:].detach().cpu().numpy()/255  
-                    data_pom=np.transpose(data_pom,(1,2,0))
-                    plt.imshow(data_pom)  
-                    plt.title("Modified "+ str(kk)+" detail")
-                    
-                    plt.subplot(4,4,15)                       
-                    plt.imshow(lbl[0,1,:,:].detach().cpu().numpy())
-                    plt.title('Orig mask cup')
-                    
-                    plt.subplot(4,4,16)                       
-                    plt.imshow(output[0,1,:,:])  
-                    plt.title('Output of net cup')                     
-                    
-                    plt.show()                     
-                    print('Test - iteration ' + str(it_test))
-                    '''
-                    #%%
-                    
+                   
         test_loss.append(np.mean(loss_tmp))            
         test_dice_disc.append(np.mean(dice_tmp_disc)) 
         test_dice_cup.append(np.mean(dice_tmp_cup))            
-                        
+        
+                     
+        
         sheduler.step()
         #%%
         clear_output()
@@ -432,5 +355,93 @@ if __name__ == "__main__":
     #%% Save of model
     #torch.save(net, 'model_01.pth')
     torch.save(net.state_dict(), path_to_save_model+ name_of_model+ '.pth')
+    
+    
+    
+    
+    
+    
+    #%%
+    '''
+    plt.figure(figsize=[10,10])
+    plt.subplot(4,4,1)    
+    im_pom_orig=img_orig_full[0,:,:,:].numpy()/255   
+    plt.imshow(im_pom_orig)   
+    plt.title("Orig " +str(kk))
+    
+    plt.subplot(4,4,2)
+    im_pom=img_full[0,:,:,:].detach().cpu().numpy()/255   
+    plt.imshow(im_pom)   
+    plt.title("Modified "+ str(kk))
+        
+    plt.subplot(4,4,3)    
+    plt.imshow(disc_orig)
+    plt.title('Orig mask disc')
+        
+    plt.subplot(4,4,4)    
+    plt.imshow(output_mask_disc)
+    plt.title('Output of net disc')
+    
+    plt.subplot(4,4,5)    
+    im_pom_orig=img_orig_full[0,:,:,:].numpy()/255   
+    plt.imshow(im_pom_orig)   
+    plt.title("Orig " +str(kk))
+    
+    plt.subplot(4,4,6)
+    im_pom=img_full[0,:,:,:].detach().cpu().numpy()/255   
+    plt.imshow(im_pom)   
+    plt.title("Modified "+ str(kk))
+        
+    plt.subplot(4,4,7)    
+    plt.imshow(cup_orig)
+    plt.title('Orig mask disc')
+        
+    plt.subplot(4,4,8)    
+    plt.imshow(output_mask_cup)
+    plt.title('Output of net cup')
+    
+    plt.subplot(4,4,9)  
+    data_pom_orig=data_orig[0,:,:,:].numpy()/255  
+    data_pom_orig=np.transpose(data_pom_orig,(1,2,0))
+    plt.imshow(data_pom_orig)  
+    plt.title("Orig " +str(kk)+ " detail")
+        
+    plt.subplot(4,4,10) 
+    data_pom=data[0,:,:,:].detach().cpu().numpy()/255  
+    data_pom=np.transpose(data_pom,(1,2,0))
+    plt.imshow(data_pom)  
+    plt.title("Modified "+ str(kk)+" detail")
+    
+    plt.subplot(4,4,11)                       
+    plt.imshow(lbl[0,0,:,:].detach().cpu().numpy())
+    plt.title('Orig mask disc')
+    
+    plt.subplot(4,4,12)                       
+    plt.imshow(output[0,0,:,:])
+    plt.title('Output of net disc')
+    
+    plt.subplot(4,4,13)  
+    data_pom_orig=data_orig[0,:,:,:].numpy()/255  
+    data_pom_orig=np.transpose(data_pom_orig,(1,2,0))
+    plt.imshow(data_pom_orig) 
+    plt.title("Orig " +str(kk)+ " detail")
+    
+    plt.subplot(4,4,14)  
+    data_pom=data[0,:,:,:].detach().cpu().numpy()/255  
+    data_pom=np.transpose(data_pom,(1,2,0))
+    plt.imshow(data_pom)  
+    plt.title("Modified "+ str(kk)+" detail")
+    
+    plt.subplot(4,4,15)                       
+    plt.imshow(lbl[0,1,:,:].detach().cpu().numpy())
+    plt.title('Orig mask cup')
+    
+    plt.subplot(4,4,16)                       
+    plt.imshow(output[0,1,:,:])  
+    plt.title('Output of net cup')                     
+    
+    plt.show()                     
+    print('Test - iteration ' + str(it_test))
+    '''
     
     
