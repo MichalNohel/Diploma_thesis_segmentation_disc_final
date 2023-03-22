@@ -12,7 +12,7 @@ import torch.nn as nn
 import torch.nn.functional as F 
 import glob
 from skimage.io import imread
-from skimage.color import rgb2gray,rgb2hsv,rgb2xyz
+from skimage.color import rgb2gray,rgb2xyz
 from skimage.morphology import disk,remove_small_objects, binary_closing, binary_opening
 from skimage.filters import gaussian
 
@@ -26,7 +26,7 @@ from scipy.io import loadmat
 import json
 from json import JSONEncoder
 
-
+#%%
 ## Dataloader
 
 class DataLoader(torch.utils.data.Dataset):
@@ -46,7 +46,7 @@ class DataLoader(torch.utils.data.Dataset):
             self.files_cup.sort()
             self.num_of_imgs=len(self.files_img)
             
-        if split=="Test":
+        if split=="Test": #Just in case OD positions are available from preprocessing
             self.path_to_data=path_to_data+ '/' +split
             self.files_img=glob.glob(self.path_to_data+'/Images/*.png')
             self.files_img_orig=glob.glob(self.path_to_data+'/Images_orig/*.png')
@@ -110,58 +110,83 @@ class DataLoader(torch.utils.data.Dataset):
             
             # output size setting
             output_size=self.output_size
-            
-            
-            # Cropping of image for segmentation, position of disc were detected in preprocessing step  
-            # 
-            output_crop_image,output_crop_orig_image, output_mask_disc,output_mask_cup=Crop_image(img_full,img_orig_full,disc_orig,cup_orig,output_size, self.disc_centres_test.get('Disc_centres_test')[index])
-            
-            
-            
+                 
+            # Cropping of image for segmentation, position of disc were detected in preprocessing step   
+            output_crop_image,output_crop_orig_image, output_mask_disc,output_mask_cup=Crop_image(img_full,img_orig_full,disc_orig,cup_orig,output_size, self.disc_centres_test.get('Disc_centres_test')[index])                    
             img_orig_crop=output_crop_orig_image.astype(np.float32)
-            
-            #Preprocesing of img
-            if(self.color_preprocesing=="RGB"):
-                img_crop=output_crop_image.astype(np.float32)
-                
-            if(self.color_preprocesing=="gray"):
-                img_crop=rgb2gray(output_crop_image).astype(np.float32)              
-            
-            if(self.color_preprocesing=="HSV"):
-                img_crop=rgb2hsv(output_crop_image).astype(np.float32)
-                
-            if(self.color_preprocesing=="XYZ"):
-                img_crop=rgb2xyz(output_crop_image).astype(np.float32)
+            img_crop=output_crop_image.astype(np.float32)
             
             #Creation of labels masks: batch x width x height
-            if(self.segmentation_type=="disc"):
-                mask_output_size=(int(1),output_size[0],output_size[1]) # output size of image
-                mask_output=np.zeros(mask_output_size)
-                mask_output[0,:,:]=output_mask_disc                
-            elif(self.segmentation_type=="cup"):
-                mask_output_size=(int(1),output_size[0],output_size[1]) # output size of image
-                mask_output=np.zeros(mask_output_size)
-                mask_output[0,:,:]=output_mask_cup
-            elif(self.segmentation_type=="disc_cup"):
-                mask_output_size=(int(2),output_size[0],output_size[1]) # output size of image
-                mask_output=np.zeros(mask_output_size)
-                mask_output[0,:,:]=output_mask_disc
-                mask_output[1,:,:]=output_mask_cup
-            else:
-                print("Wrong type of segmentation")
+            mask_output_size=(int(2),output_size[0],output_size[1]) # output size of image
+            mask_output=np.zeros(mask_output_size)
+            mask_output[0,:,:]=output_mask_disc
+            mask_output[1,:,:]=output_mask_cup
                 
             mask_output=mask_output.astype(bool)
             img_crop=TF.to_tensor(img_crop)
             img_orig_crop=TF.to_tensor(img_orig_crop)
             mask_output=torch.from_numpy(mask_output)
             coordinates=self.disc_centres_test.get('Disc_centres_test')[index].astype(np.int16)
-            return img_crop,img_orig_crop, mask_output, img_full, img_orig_full, disc_orig,cup_orig, coordinates
+            return img_crop,img_orig_crop, mask_output, img_full, img_orig_full, disc_orig, cup_orig, coordinates    
     
+        if self.split=="UBMI":
+            img_full=imread(self.files_img[index])
+            img_orig_full=imread(self.files_img_orig[index])
+            img_orig_neprevzorkovany=imread(self.files_img_orig_full[index])
+            disc_orig=imread(self.files_disc[index]).astype(bool)
+            cup_orig=imread(self.files_cup[index]).astype(bool)
+            fov_orig=imread(self.files_fov[index]).astype(bool)
+            output_size=self.output_size
+            
+            output_crop_image,output_crop_orig_image, output_mask_disc,output_mask_cup=Crop_image(img_full,img_orig_full,disc_orig,cup_orig,output_size, self.disc_centres_test.get('Disc_centres_test')[index])
+            
+            img_orig_crop=output_crop_orig_image.astype(np.float32)
+            img_crop=output_crop_image.astype(np.float32)
+                        
+            #Creation of labels masks: batch x width x height
+            mask_output_size=(int(2),output_size[0],output_size[1]) # output size of image
+            mask_output=np.zeros(mask_output_size)
+            mask_output[0,:,:]=output_mask_disc
+            mask_output[1,:,:]=output_mask_cup
+                            
+            mask_output=mask_output.astype(bool)
+            img_crop=TF.to_tensor(img_crop)
+            img_orig_crop=TF.to_tensor(img_orig_crop)
+            mask_output=torch.from_numpy(mask_output)
+            coordinates=self.disc_centres_test.get('Disc_centres_test')[index].astype(np.int16)
+            return img_crop,img_orig_crop, mask_output, img_full, img_orig_full, disc_orig, cup_orig, coordinates, img_orig_neprevzorkovany
+
+    ## Function for data augmentation
     
+    def random_crop(self,in_size,out_size,img,img_orig,disc,cup):
+        r=[int(torch.randint(in_size[0]-out_size[0],(1,1)).view(-1).numpy()),int(torch.randint(in_size[1]-out_size[1],(1,1)).view(-1).numpy())]
+        img_crop=img[r[0]:r[0]+out_size[0],r[1]:r[1]+out_size[1],:]
+        img_orig_crop=img_orig[r[0]:r[0]+out_size[0],r[1]:r[1]+out_size[1],:]
+        disc_crop=disc[r[0]:r[0]+out_size[0],r[1]:r[1]+out_size[1]]
+        cup_crop=cup[r[0]:r[0]+out_size[0],r[1]:r[1]+out_size[1]]
+        return img_crop.copy(),img_orig_crop.copy(),disc_crop.copy(),cup_crop.copy()
     
+    def random_rotflip(self,img,img_orig,disc,cup):
+            r=[torch.randint(2,(1,1)).view(-1).numpy(),torch.randint(2,(1,1)).view(-1).numpy(),torch.randint(4,(1,1)).view(-1).numpy()]
+            if r[0]:
+                img=np.fliplr(img)
+                img_orig=np.fliplr(img_orig)
+                disc=np.fliplr(disc)
+                cup=np.fliplr(cup)
+            if r[1]:
+                img=np.flipud(img)
+                img_orig=np.flipud(img_orig)
+                disc=np.flipud(disc)
+                cup=np.flipud(cup)
     
-# Function for disc detection and croping of image
-def Detection_of_disc(image,fov,sigma,size_of_erosion):    
+            img=np.rot90(img,k=r[2])
+            img_orig=np.rot90(img_orig,k=r[2])
+            disc=np.rot90(disc,k=r[2]) 
+            cup=np.rot90(cup,k=r[2])     
+            return img.copy(),img_orig.copy(),disc.copy(),cup.copy()
+# %%    
+## Function for disc detection and croping of image
+def Detection_of_disc(image,fov,sigma,size_of_erosion):    #PŘEDĚLAT
     img=rgb2xyz(image).astype(np.float32)
     img=rgb2gray(img).astype(np.float32)
     BW=binary_erosion(fov,disk(size_of_erosion))
@@ -204,3 +229,186 @@ def Crop_image(image,image_orig,mask_disc,mask_cup,output_image_size,center_new)
     output_mask_disc=mask_disc[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1]]
     output_mask_cup=mask_cup[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1]]
     return output_crop_image, output_crop_orig_image,output_mask_disc,output_mask_cup
+#%%
+## U-Net
+class unetConv2(nn.Module):
+    def __init__(self,in_size,out_size,filter_size=3,stride=1,pad=1,do_batch=1):
+        super().__init__()
+        self.do_batch=do_batch
+        self.conv=nn.Conv2d(in_size,out_size,filter_size,stride,pad)
+        self.bn=nn.BatchNorm2d(out_size,momentum=0.1)
+        
+    def forward(self,inputs):
+        outputs=self.conv(inputs)    
+        
+        if self.do_batch:
+            outputs=self.bn(outputs) 
+        
+        outputs=F.relu(outputs)
+        return outputs
+
+class unetConvT2(nn.Module):
+    def __init__(self, in_size, out_size,filter_size=3,stride=2,pad=1,out_pad=1):
+        super().__init__()
+        self.conv=nn.ConvTranspose2d(in_size, out_size, filter_size,stride=stride, padding=pad, output_padding=out_pad)
+        
+    def forward(self,inputs):
+        outputs=self.conv(inputs)
+        outputs=F.relu(outputs)
+        return outputs
+        
+class unetUp(nn.Module):
+    def __init__(self,in_size,out_size):
+        super(unetUp,self).__init__()
+        self.up = unetConvT2(in_size,out_size)
+        
+    def forward(self,inputs1, inputs2):
+        inputs2=self.up(inputs2)
+        return torch.cat([inputs1,inputs2],1)
+    
+class Unet(nn.Module):
+    def __init__(self, filters=(np.array([16, 32, 64, 128, 256])/2).astype(np.int32),in_size=3,out_size=1):
+        super().__init__()
+        self.out_size=out_size
+        self.in_size=in_size
+        self.filters=filters
+        
+        self.conv1 = nn.Sequential(unetConv2(in_size, filters[0]),unetConv2(filters[0], filters[0]),unetConv2(filters[0], filters[0]))
+        self.conv2 = nn.Sequential(unetConv2(filters[0], filters[1] ),unetConv2(filters[1], filters[1] ),unetConv2(filters[1], filters[1] ))  
+        self.conv3 = nn.Sequential(unetConv2(filters[1], filters[2] ),unetConv2(filters[2], filters[2] ),unetConv2(filters[2], filters[2] ))
+        self.conv4 = nn.Sequential(unetConv2(filters[2], filters[3] ),unetConv2(filters[3], filters[3] ),unetConv2(filters[3], filters[3] ))
+
+        self.center = nn.Sequential(unetConv2(filters[-2], filters[-1] ),unetConv2(filters[-1], filters[-1] ))                
+        
+        self.up_concat4 = unetUp(filters[4], filters[4] )        
+        self.up_conv4=nn.Sequential(unetConv2(filters[3]+filters[4], filters[3] ),unetConv2(filters[3], filters[3] ))
+
+        self.up_concat3 = unetUp(filters[3], filters[3] )
+        self.up_conv3=nn.Sequential(unetConv2(filters[2]+filters[3], filters[2] ),unetConv2(filters[2], filters[2] ))
+
+        self.up_concat2 = unetUp(filters[2], filters[2] )
+        self.up_conv2=nn.Sequential(unetConv2(filters[1]+filters[2], filters[1] ),unetConv2(filters[1], filters[1] ))
+    
+        self.up_concat1 = unetUp(filters[1], filters[1] )
+        self.up_conv1=nn.Sequential(unetConv2(filters[0]+filters[1], filters[0] ),unetConv2(filters[0], filters[0],do_batch=0 ))
+            
+        self.final = nn.Conv2d(filters[0], self.out_size, 1)
+        
+        for i, m in enumerate(self.modules()):
+            if isinstance(m, nn.Conv2d):
+                init.xavier_normal_(m.weight)
+                init.constant_(m.bias, 0)
+    
+    
+    def forward(self,inputs):
+        conv1=self.conv1(inputs)
+        x=F.max_pool2d(conv1,2,2)
+        
+        conv2=self.conv2(x)
+        x=F.max_pool2d(conv2,2,2)
+        
+        conv3=self.conv3(x)
+        x=F.max_pool2d(conv3,2,2)
+        
+        conv4=self.conv4(x)
+        x=F.max_pool2d(conv4,2,2)
+        
+        x=self.center(x)
+        
+        x=self.up_concat4(conv4,x)
+        x=self.up_conv4(x)
+        
+        x=self.up_concat3(conv3,x)
+        x=self.up_conv3(x)
+        
+        x=self.up_concat2(conv2,x)
+        x=self.up_conv2(x)
+        
+        x=self.up_concat1(conv1,x)
+        x=self.up_conv1(x)
+    
+        x=self.final(x)
+        
+        return x
+    
+#%%
+## Metrics
+
+def dice_loss(X,Y):
+    eps=1.
+    dice=((2. * torch.sum(X*Y) + eps) / (torch.sum(X) + torch.sum(Y) + eps) )
+    return 1-dice
+
+def dice_coefficient(X,Y):
+    # X-otuput, Y-Label
+    TP=np.sum(np.logical_and(X,Y))
+    FP=np.sum(np.logical_and(np.logical_not(X),Y))
+    FN=np.sum(np.logical_and(X,np.logical_not(Y)))
+    dice = 2*TP/(2*TP+FP+FN)
+    return dice
+
+def Sensitivity (X,Y):
+    # X-otuput, Y-Label
+    TP=np.sum(np.logical_and(X,Y))
+    FN=np.sum(np.logical_and(X,np.logical_not(Y)))
+    sensitivity = TP/(FN+TP)
+    return sensitivity
+    
+def Specificity (X,Y):
+    # X-otuput, Y-Label
+    TN=np.sum(np.logical_and(np.logical_not(X),np.logical_not(Y)))
+    FP=np.sum(np.logical_and(np.logical_not(X),Y))
+    specificity = TN/(TN+FP)
+    return specificity
+
+# %% 
+## Postprocessing function
+def Postprocesing(output,min_size,type_of_morphing,size_of_disk,ploting):
+    
+    output_final=binary_fill_holes(output)
+    output_final=remove_small_objects(output_final,min_size=min_size)
+    
+    padding=50
+    
+    output_final=np.pad(output_final, pad_width=[(padding, padding),(padding, padding)], mode='constant')
+    
+    if (type_of_morphing=="closing"):
+        output_final=binary_closing(output_final,disk(size_of_disk))
+    elif (type_of_morphing=="openinig"):
+        output_final=binary_opening(output_final,disk(size_of_disk))
+    elif (type_of_morphing=="closing_opening"):
+        output_final=binary_closing(output_final,disk(size_of_disk)) 
+        output_final=binary_opening(output_final,disk(size_of_disk))
+    elif (type_of_morphing=="opening_closing"):
+        output_final=binary_opening(output_final,disk(size_of_disk)) 
+        output_final=binary_closing(output_final,disk(size_of_disk))  
+        
+    output_final=output_final[padding:output_final.shape[0]-padding,padding:output_final.shape[1]-padding]
+    
+    if ploting:        
+        plt.figure(figsize=[10,10])
+        plt.subplot(1,2,1)
+        plt.imshow(output)
+        plt.title('Po vystupu sítě')    
+        
+        plt.subplot(1,2,2)
+        plt.imshow(output_final)
+        plt.title('Postprocesing')
+        plt.show()
+    
+    return output_final
+# %% 
+## Definition for JSONE
+class NumpyArrayEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return JSONEncoder.default(self, obj)
+
+def zapis_kontury(ZAPISOVAT,contours,dir_pom,name_of_img,type_of_contur):    
+    if ZAPISOVAT:
+        numpyData = {"array": contours}
+        encodedNumpyData = json.dumps(numpyData, cls=NumpyArrayEncoder)
+        with open(dir_pom+'/' + name_of_img + type_of_contur +".json", "w") as fp:
+                json.dump(encodedNumpyData, fp)
+    
