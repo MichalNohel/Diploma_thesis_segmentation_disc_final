@@ -87,6 +87,7 @@ class DataLoader(torch.utils.data.Dataset):
             img,img_orig,disc,cup=self.random_crop(input_size,output_size,img,img_orig,disc,cup)
             img,img_orig,disc,cup=self.random_rotflip(img,img_orig,disc,cup)            
             img_orig=img_orig.astype(np.float32)
+            img=img.astype(np.float32)
             
             #Creation of labels masks: batch x width x height            
             mask_output_size=(int(2),output_size[0],output_size[1]) # output size of image
