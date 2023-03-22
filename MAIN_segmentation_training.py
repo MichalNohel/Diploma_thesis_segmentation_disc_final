@@ -20,8 +20,8 @@ import os
 if __name__ == "__main__": 
     #Learning parameters
     lr=0.001
-    epochs=1
-    batch=12
+    epochs=30
+    batch=16
     threshold=0.5
     # size of crop image to training    
     output_size=(int(448),int(448),int(3))
@@ -173,8 +173,7 @@ if __name__ == "__main__":
                     
                 pom_sourad=coordinates.detach().cpu().numpy()[0]
     
-                output_mask_disc=np.zeros([disc_orig.shape[1],disc_orig.shape[2]]) 
-                    
+                output_mask_disc=np.zeros([disc_orig.shape[1],disc_orig.shape[2]])                     
                 output_mask_cup=np.zeros([disc_orig.shape[1],disc_orig.shape[2]])   
                     
                 if (pom_sourad[1]-int(output_size[0]/2)<0):
@@ -409,7 +408,7 @@ if __name__ == "__main__":
         plt.title('test')
         plt.show()
         
-    #%% Final results
+    #%% Final results - save data
     clear_output()
     plt.figure(figsize=[10,10])
     plt.plot(train_loss,label='train loss')
