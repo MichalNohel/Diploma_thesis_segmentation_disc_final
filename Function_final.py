@@ -267,7 +267,7 @@ class unetUp(nn.Module):
         return torch.cat([inputs1,inputs2],1)
     
 class Unet(nn.Module):
-    def __init__(self, filters=(np.array([16, 32, 64, 128, 256])/2).astype(np.int32),in_size=3,out_size=1):
+    def __init__(self, filters=(np.array([16, 32, 64, 128, 256])/2).astype(np.int32),in_size=3,out_size=2):
         super().__init__()
         self.out_size=out_size
         self.in_size=in_size
@@ -363,7 +363,7 @@ def Specificity (X,Y):
 
 # %% 
 ## Postprocessing function
-def Postprocesing(output,min_size,type_of_morphing,size_of_disk,ploting):
+def Postprocesing_disc(output,min_size,type_of_morphing,size_of_disk,ploting):
     
     output_final=binary_fill_holes(output)
     output_final=remove_small_objects(output_final,min_size=min_size)
