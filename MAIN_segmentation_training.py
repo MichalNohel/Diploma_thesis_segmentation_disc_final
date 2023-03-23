@@ -21,7 +21,7 @@ if __name__ == "__main__":
     #Learning parameters
     lr=0.001
     epochs=30
-    batch=16
+    batch=12
     threshold=0.5
     # size of crop image to training    
     output_size=(int(448),int(448),int(3))
