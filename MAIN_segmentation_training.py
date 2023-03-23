@@ -339,6 +339,7 @@ if __name__ == "__main__":
     plt.plot(train_dice_cup,label='dice_cup')
     plt.legend(loc="upper left")
     plt.title('train')
+    plt.xlabel('Epochs')
     plt.savefig(path_to_save_model+ name_of_model +"_Train.png")
     plt.show()
         
@@ -349,6 +350,7 @@ if __name__ == "__main__":
     plt.plot(test_dice_cup,label='dice_cup')
     plt.legend(loc="upper left")
     plt.title('test')
+    plt.xlabel('Epochs')
     plt.savefig(path_to_save_model+ name_of_model +"_Test.png")
     plt.show() 
     
