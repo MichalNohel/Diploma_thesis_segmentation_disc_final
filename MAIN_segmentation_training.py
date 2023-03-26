@@ -24,21 +24,24 @@ if __name__ == "__main__":
     batch=12
     threshold=0.5
     #%%
-    '''
+    
     # For resolution 35px
     # size of crop image to training  
     output_size=(int(448),int(448),int(3))
     #Path to data resolution 35px
-    path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database"
-    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px/'
+    #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database"
+    #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px/'
+    
+    path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_50"
+    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_50/'
     
     isExist = os.path.exists(path_to_save_model)
     if not isExist:
         os.makedirs(path_to_save_model)    
-    name_of_model='model_Unet_35px_all_mod_dat_OS_448_448_3'  
-    '''
-    #%%
+    name_of_model='model_Unet_35px_all_mod_dat_doplneni_sigma_50_OS_448_448_3'  
     
+    #%%
+    '''
     # For resolution 25px
     # size of crop image to training  
     output_size=(int(288),int(288),int(3))
@@ -54,7 +57,7 @@ if __name__ == "__main__":
     if not isExist:
         os.makedirs(path_to_save_model)    
     name_of_model='model_Unet_25px_all_mod_dat_doplneni_OS_288_288_3'  
-    
+    '''
     #%%
     
     
