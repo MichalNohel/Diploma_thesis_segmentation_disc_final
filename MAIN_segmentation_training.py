@@ -32,13 +32,16 @@ if __name__ == "__main__":
     #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database"
     #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px/'
     
-    path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_50"
-    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_50/'
+    #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_50"
+    #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_50/'
+    
+    path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_100"
+    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_100/'
     
     isExist = os.path.exists(path_to_save_model)
     if not isExist:
         os.makedirs(path_to_save_model)    
-    name_of_model='model_Unet_35px_all_mod_dat_doplneni_sigma_50_OS_448_448_3'  
+    name_of_model='model_Unet_35px_all_mod_dat_doplneni_sigma_100_OS_448_448_3'  
     
     #%%
     '''
