@@ -23,6 +23,6 @@ if length(M2)>5
 end
 if length(M3)>5
     M3 = M3(minr:maxr,minc:maxc,:);
-    M3=imresize(M3,(rc*degree),'nearest');  
+    M3=imresize(M3,(rc/degree),'nearest');  
 end
 end
