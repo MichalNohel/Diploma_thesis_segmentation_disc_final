@@ -1,4 +1,4 @@
-function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,sigma,size_of_erosion,path_export_file)
+function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,sigma,size_of_erosion,percentage_number_test,path_export_file)
     
     % Creatio of file structure for creation of database
     if ~exist(path_export_file, 'dir')
