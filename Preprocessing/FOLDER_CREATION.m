@@ -48,6 +48,7 @@ if ~exist([path name], 'dir')
     mkdir([path name])
     mkdir([path name name])
     basic_folder_creation ([path name])
+    mkdir([path name '\Vessels'])
 end
 
 %% REFUGE
@@ -96,11 +97,13 @@ if ~exist([path name], 'dir')
     mkdir([path name])
     mkdir([path name name])
     basic_folder_creation ([path name])
+    mkdir([path name '\Vessels'])
     special_folder_creation ([path name '\Cup'],4)
     special_folder_creation ([path name '\Disc'],4)
     special_folder_creation ([path name '\Fov'],4)
     special_folder_creation ([path name '\Images'],4)
     special_folder_creation ([path name '\Images_orig'],4)
+    special_folder_creation ([path name '\Vessels'],4)
 end
 
 %%

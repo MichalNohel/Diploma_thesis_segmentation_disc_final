@@ -8,21 +8,21 @@ function [I2,M1,M2,M3,F]=image_adjustment(im,rc,degree,M1,M2,M3, dat, fov)
     maxc=(sloup+polomer)*(size(im,2)>=(sloup+polomer))+size(im,2)*(size(im,2)<(sloup+polomer));
 
 I = im(minr:maxr,minc:maxc,:);
-I2=imresize(I,(rc/degree)); 
+I2=imresize(I,(rc*degree)/length(I)); 
 
 F = fov(minr:maxr,minc:maxc,:);
-F=imresize(F,(rc/degree),'nearest'); 
+F=imresize(F,(rc*degree)/length(I),'nearest'); 
 
 if length(M1)>5
     M1 = M1(minr:maxr,minc:maxc,:);
-    M1=imresize(M1,(rc/degree),'nearest'); 
+    M1=imresize(M1,(rc*degree)/length(I),'nearest'); 
 end
 if length(M2)>5
     M2 = M2(minr:maxr,minc:maxc,:);
-    M2=imresize(M2,(rc/degree),'nearest');   
+    M2=imresize(M2,(rc*degree)/length(I),'nearest');   
 end
 if length(M3)>5
     M3 = M3(minr:maxr,minc:maxc,:);
-    M3=imresize(M3,(rc/degree),'nearest');  
+    M3=imresize(M3,(rc*degree)/length(I),'nearest');  
 end
 end
