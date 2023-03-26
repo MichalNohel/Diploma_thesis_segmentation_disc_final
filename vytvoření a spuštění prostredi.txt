@@ -1,0 +1,7 @@
+spydeconda create --name Diploma_eye
+conda activate Diploma_eye
+conda install pytorch==1.10.1 torchvision==0.11.2 torchaudio==0.10.1 cudatoolkit=10.2 -c pytorch
+conda install numpy spyder matplotlib pandas scikit-image scikit-learn
+Spuštění:
+conda activate C:\Data\Nohel\Diploma_eye
+
