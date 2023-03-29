@@ -80,7 +80,8 @@ for i=1:length(images)
         [I,D,C,~, fov]=image_adjustment(im,rc,degree,disc,cup,0, 'riga', 0);
         
 
-        [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+%         [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+        [I_mod]=local_contrast_and_clahe(I,fov);
 
 
         if (h==1)

@@ -16,7 +16,8 @@ for i=1:length(images)
     fov=logical(zeros(m,n)); fov([1, end],1:n/2)=1; fov(:,[1 n/2])=1;
     [I,D,C,~, fov]=image_adjustment(im,rc,degree,disk,cup,0, 'rimone', fov);
 
-    [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+%     [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+    [I_mod]=local_contrast_and_clahe(I,fov);
     
     in(strfind(in,'-'))=[];
     imname= [ 'rimone_na_glaucoma_'  in  ];
@@ -44,7 +45,8 @@ for i=1:length(images)
     fov=logical(zeros(m,n)); fov([1, end],1:n/2)=1; fov(:,[1 n/2])=1;
     [I,D,C,~, fov]=image_adjustment(im,rc,degree,disc,cup,0, 'rimone', fov);
 
-    [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+%     [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+    [I_mod]=local_contrast_and_clahe(I,fov);
    
     in(strfind(in,'-'))=[];
     imname= [ 'rimone_na_healthy_'  in  ];

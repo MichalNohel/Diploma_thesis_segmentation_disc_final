@@ -2,7 +2,7 @@ close all
 clear all
 clc
 %%  SET
-path_to_data = 'D:\Preprocesing';
+path_to_data = 'D:\Preprocesing_TomVicar_mod_jasu_25px';
 path_to_data= [path_to_data '\'];
 
 % Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat

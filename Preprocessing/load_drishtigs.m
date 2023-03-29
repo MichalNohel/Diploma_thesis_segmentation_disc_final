@@ -19,7 +19,8 @@ for i=1:length(images)
         pom_cup=logical(pom_cup);
         [I,C,D,~,fov]=image_adjustment(im,rc,degree,pom_cup,pom_disk,0, 'drishtigs', 0);
 
-        [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+        %[I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+        [I_mod]=local_contrast_and_clahe(I,fov);
 
         ind=strfind(in,'_');
         num=in(ind+1:end);
@@ -63,7 +64,8 @@ for i=1:length(images)
         [I,C,D,~,fov]=image_adjustment(im,rc,degree,pom_cup,pom_disk,0, 'drishtigs', 0);
        
         
-        [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+        %[I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
+        [I_mod]=local_contrast_and_clahe(I,fov);
 
         ind=strfind(in,'_');
         num=in(ind+1:end);

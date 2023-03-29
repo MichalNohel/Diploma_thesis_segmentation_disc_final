@@ -5,7 +5,7 @@ clc
 % Skript který vytvoří adresář nutný pro předzpracování dat
 
 % path=cd;  %cesta do složky, kde bude vytvořen adresář pro předzpracování dat
-path='D:\Preprocesing';
+path='D:\Preprocesing_TomVicar_mod_jasu_25px';
 if ~exist(path, 'dir')
     mkdir(path)
 end
