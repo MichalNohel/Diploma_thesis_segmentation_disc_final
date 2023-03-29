@@ -1,5 +1,5 @@
 function[center_new] = Detection_of_disc(image,fov,sigma,velikost_erodovani)
-    %image=im2double(image);
+%     image=im2double(image);
     image=rgb2xyz(im2double(image));
     image=rgb2gray(image);
     BW=imerode(fov,strel('disk',velikost_erodovani));

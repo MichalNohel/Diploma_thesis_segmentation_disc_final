@@ -2,16 +2,16 @@ close all
 clear all
 clc
 %%  SET
-path_to_data = 'D:\Preprocesing';
+path_to_data = 'D:\Preprocesing_TomVicar_mod_jasu_25px';
 path_to_data= [path_to_data '\'];
 
 %% Creation of test and train dataset
-output_image_size=[320,320]; %parametres for crop image
+output_image_size=[360,360]; %parametres for crop image
 percentage_number_test=0.2; % 20% of image will be in test dataset
 %parametres for OD detection
 sigma_detection=25;
 size_of_erosion=40;
-path_export_file='D:\DATA\Data_320_320_25px_preprocesing_sigma_50_all_database/';
+path_export_file='D:\DATA\Data_360_360_25px_preprocesing_TomVicar/';
 
 creation_of_train_and_test_dataset(path_to_data,output_image_size,sigma_detection,size_of_erosion,percentage_number_test,path_export_file)
 load chirp
@@ -70,7 +70,10 @@ Disc_centres_test=Disc_centres_test-1;
 save([path_export_file 'Disc_centres_test_correct.mat'],'Disc_centres_test')
 
 %% code for finding the optimal detection parameters
-% for m=1:length(sigma)
+% sigma_detection=20:5:50;
+% size_of_erosion=40;
+% accuracy=[];
+% for m=1:length(sigma_detection)
 %     for n=1:length(size_of_erosion)
 %         Disc_centres_test=[];
 %         Accuracy_of_detec=[];
@@ -78,7 +81,7 @@ save([path_export_file 'Disc_centres_test_correct.mat'],'Disc_centres_test')
 %             image=imread([test_images_file(i).folder '\' test_images_file(i).name ]); 
 %             fov=imread([test_fov_file(i).folder '\' test_fov_file(i).name ]);
 %             mask_disc=logical(imread([test_dics_file(i).folder '\' test_dics_file(i).name ])); 
-%             [center_new] = Detection_of_disc(image,fov,sigma(m),size_of_erosion(n));
+%             [center_new] = Detection_of_disc(image,fov,sigma_detection(m),size_of_erosion(n));
 %             Disc_centres_test(i,1)=center_new(1);
 %             Disc_centres_test(i,2)=center_new(2);
 %             if mask_disc(center_new(2),center_new(1))==1
