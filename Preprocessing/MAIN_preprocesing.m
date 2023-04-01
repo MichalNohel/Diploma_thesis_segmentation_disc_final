@@ -2,24 +2,24 @@ close all
 clear all
 clc
 %%  SET
-path_to_data = 'D:\DATA_DP_oci\Preprocesing_25px';
+path_to_data = 'D:\DATA_DP_oci\Preprocesing_35px';
 path_to_data= [path_to_data '\'];
 
 %% Pro rozlišeni 25px
-% Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
-resolution = 25;  
-% Nastavení parametrů pro modifikaci jasu
-sigma_preprocesing=50; % 
-Num_tiles_param=150;
-ClipLimit=0.005;
-
-%% Pro rozlišeni 35px
 % % Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
-% resolution = 35;  
+% resolution = 25;  
 % % Nastavení parametrů pro modifikaci jasu
-% sigma_preprocesing=75; % 
+% sigma_preprocesing=50; % 
 % Num_tiles_param=150;
 % ClipLimit=0.005;
+
+%% Pro rozlišeni 35px
+% Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
+resolution = 35;  
+% Nastavení parametrů pro modifikaci jasu
+sigma_preprocesing=75; % 
+Num_tiles_param=150;
+ClipLimit=0.005;
 
 %% Preprocessing of databases 
 %% Drishti-GS
