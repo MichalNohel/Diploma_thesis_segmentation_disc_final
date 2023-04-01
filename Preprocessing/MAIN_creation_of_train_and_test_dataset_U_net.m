@@ -6,12 +6,21 @@ path_to_data = 'D:\DATA_DP_oci\Preprocesing_25px';
 path_to_data= [path_to_data '\'];
 
 %% Creation of test and train dataset
-output_image_size=[360,360]; %parametres for crop image
-percentage_number_test=0.2; % 20% of image will be in test dataset
+% % rozlišeni 25px 
+% output_image_size=[360,360]; %parametres for crop image
+% %parametres for OD detection
+% sigma_detection=25;
+% size_of_erosion=40;
+%%
+% rozlišeni 35px 
+output_image_size=[500,500]; %parametres for crop image
 %parametres for OD detection
 sigma_detection=25;
 size_of_erosion=40;
-path_export_file='D:\DATA_DP_oci\Data_360_360_25px_preprocesing/';
+%%
+
+percentage_number_test=0.2; % 20% of image will be in test dataset
+path_export_file='D:\DATA_DP_oci\Data_500_500_35px_preprocesing/';
 
 creation_of_train_and_test_dataset(path_to_data,output_image_size,sigma_detection,size_of_erosion,percentage_number_test,path_export_file)
 load chirp
@@ -70,7 +79,7 @@ Disc_centres_test=Disc_centres_test-1;
 save([path_export_file 'Disc_centres_test_correct.mat'],'Disc_centres_test')
 
 %% code for finding the optimal detection parameters
-sigma_detection=15:5:60;
+sigma_detection=20:10:100;
 size_of_erosion=40;
 accuracy=[];
 eukl_vzdal=[];
