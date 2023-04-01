@@ -36,8 +36,10 @@ for i=1:length(images)
 
     [I,V,D,C,fov]=image_adjustment(im,rc,degree,ves,disc,cup, 'uoadr',0);
 
-%     [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
-    [I_mod]=local_contrast_and_clahe(I,fov);
+    %moje modifikace
+    [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit); %
+    %modifikace UBMI
+%     [I_mod]=local_contrast_and_clahe(I,fov);
     
     if sum(str2num(in) == [1:81, 83:94, 130, 132:143, 168, 169, 171:174, 179, 193])
     imname= [ 'uoadr_na_npdr_'  in  ];

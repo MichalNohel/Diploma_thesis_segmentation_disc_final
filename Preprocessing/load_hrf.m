@@ -15,8 +15,10 @@ for i=1:length(images)
 
     [I,V,D,C, fov]=image_adjustment(im,rc,degree,ves,disc,cup, 'hrf', fov);
 
-%     [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit);
-    [I_mod]=local_contrast_and_clahe(I,fov);
+    %moje modifikace
+    [I_mod]=modifikace_jasu(I,fov,sigma,Num_tiles_param,ClipLimit); %
+    %modifikace UBMI
+%     [I_mod]=local_contrast_and_clahe(I,fov);
     
     ind=strfind(in,'_');
     diagnose=in(ind(1)+1);
