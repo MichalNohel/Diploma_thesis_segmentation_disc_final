@@ -24,34 +24,34 @@ if __name__ == "__main__":
     batch=12
     threshold=0.5
     #%%
-    '''
+
     # For resolution 35px
     # size of crop image to training  
     output_size=(int(448),int(448),int(3))
     #Path to data resolution 35px
-    #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database"
-    #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px/'
+    path_to_data="D:\DATA_DP_oci\Data_500_500_35px_preprocesing"
+    path_to_save_model = os.getcwd() + '/Trained_models_final/U_net_res_35px_sigma_75/'
     
     #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_50"
     #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_50/'
     
-    path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_100"
-    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_100/'
+    #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_480_480_35px_preprocesing_all_database_doplneni_sigma_100"
+    #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_35px_doplneni_sigma_100/'
     
     isExist = os.path.exists(path_to_save_model)
     if not isExist:
         os.makedirs(path_to_save_model)    
-    name_of_model='model_Unet_35px_all_mod_dat_doplneni_sigma_100_OS_448_448_3'  
-    '''
-    #%%
+    name_of_model='model_Unet_35px_sigma_75_OS_448_448_3'  
     
+    #%%
+    '''
     # For resolution 25px
     # size of crop image to training  
     output_size=(int(320),int(320),int(3))
     #Path to data resolution 25px
     
-    path_to_data="D:\DATA\Data_360_360_25px_preprocesing_TomVicar"
-    path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_25px_sigma_TomVicar/'
+    path_to_data="D:\DATA_DP_oci\Data_360_360_25px_preprocesing"
+    path_to_save_model = os.getcwd() + '/Trained_models_final/U_net_res_25px_sigma_50/'
     
     
     #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_320_320_25px_preprocesing_all_database"
@@ -64,8 +64,8 @@ if __name__ == "__main__":
     if not isExist:
         os.makedirs(path_to_save_model)   
         
-    name_of_model='model_Unet_25px_all_OS_320_320_3_sigma_TomVicar'  
-    
+    name_of_model='model_Unet_25px_sigma_50_OS_320_320_3'  
+    '''
     #%%
     
     
