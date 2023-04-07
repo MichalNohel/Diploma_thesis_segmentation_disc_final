@@ -2,8 +2,8 @@ clear all
 close all
 clc
 %% Evaluace masek pro rozlišení 35px
-path_to_data=[pwd '\Data_480_480_35px/'];
-images_file = dir(path_to_data);
+path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_unet\';
+images_file = dir([path_to_data]);
 images_file(1:2)=[]; 
 
 Dice_disc=[];
