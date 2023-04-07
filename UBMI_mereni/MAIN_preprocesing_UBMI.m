@@ -40,3 +40,8 @@ load_mereni_UBMI(resolution, path, sigma_preprocesing, Num_tiles_param, ClipLimi
 %%
 disc_detection_UBMI_klikac(path, sigma_detection,size_of_erosion)
 
+
+
+
+
+

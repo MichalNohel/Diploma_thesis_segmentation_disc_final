@@ -25,24 +25,53 @@ if __name__ == "__main__":
     # %%
     #Rozliseni_360_360_25px  
     
+    # #SADA01
+    # # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_25px\Orig_sada01"
+    # # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_25px/Sada01_Output_unet/"  
+    
+    # #SADA02
+    # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_25px\Orig_sada02"
+    # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_25px/Sada02_Output_unet/"
+    
+    # output_size=(int(320),int(320),int(3)) #Velikost vstupu síte 
+    
+    # sigma_detection=25
+    # size_of_erosion=40
+    # OD_center_available=True
+    
+    # # Cesta k naucenemu modelu
+    # path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_25px_sigma_50/"
+     
+    # name_of_model='model_Unet_25px_sigma_50_OS_320_320_3'
+    
+    # net=Unet(out_size=2).cuda()  
+    # net.load_state_dict(torch.load(path_to_save_model+ name_of_model+ '.pth'))    
+    
+    # isExist = os.path.exists(path_to_results)
+    # if not isExist:
+    #     os.makedirs(path_to_results)
+    
+    # %%
+    #Rozliseni_500_500_35px
+    
     #SADA01
-    # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_25px\Orig_sada01"
-    # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_25px/Sada01_Output_unet/"  
+    # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada01"
+    # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada01_Output_unet/"  
     
     #SADA02
-    path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_25px\Orig_sada02"
-    path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_25px/Sada02_Output_unet/"
+    path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada02"
+    path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada02_Output_unet/"
     
-    output_size=(int(320),int(320),int(3)) #Velikost vstupu síte 
+    output_size=(int(448),int(448),int(3))  #Velikost vstupu síte 
     
-    sigma_detection=25
+    sigma_detection=45
     size_of_erosion=40
     OD_center_available=True
     
     # Cesta k naucenemu modelu
-    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_25px_sigma_50/"
+    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_35px_sigma_75/"
      
-    name_of_model='model_Unet_25px_sigma_50_OS_320_320_3'
+    name_of_model='model_Unet_35px_sigma_75_OS_448_448_3'
     
     net=Unet(out_size=2).cuda()  
     net.load_state_dict(torch.load(path_to_save_model+ name_of_model+ '.pth'))    
@@ -50,8 +79,6 @@ if __name__ == "__main__":
     isExist = os.path.exists(path_to_results)
     if not isExist:
         os.makedirs(path_to_results)
-    
-    
     
     #%%
     net.eval()    
