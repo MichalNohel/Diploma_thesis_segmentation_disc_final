@@ -1,11 +1,11 @@
 clear all
 close all
-clc
+clc 
 %%
 % Skript který vytvoří adresář nutný pro předzpracování dat
 
 % path=cd;  %cesta do složky, kde bude vytvořen adresář pro předzpracování dat
-path='D:\DATA_DP_oci\Preprocesing_25px';
+path='D:\DATA_DP_oci\Preprocesing_35px_sigma80';
 if ~exist(path, 'dir')
     mkdir(path)
 end

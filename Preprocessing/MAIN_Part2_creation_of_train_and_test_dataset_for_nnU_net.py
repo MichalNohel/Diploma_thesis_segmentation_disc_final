@@ -11,10 +11,10 @@ join = os.path.join
 
 if __name__ == "__main__":
         
-    base = 'D:\DATA\Data_25px_nn_unet'
+    base = 'D:\DATA_DP_oci\Data_25px_nn_unet'
     
-    task_id = 700
-    task_name = "Optic_disc_cup_segmentation"
+    task_id = 725
+    task_name = "Optic_disc_cup_segm_25px"
     foldername = "Task%03.0d_%s" % (task_id, task_name)
     out_base = join(base, foldername)  
     
@@ -61,9 +61,11 @@ if __name__ == "__main__":
         convert_2d_image_to_nifti(input_segmentation_file, output_seg_file, is_seg=True)
    
     #%%
-    # finally we can call the utility for generating a dataset.json
+    #finally we can call the utility for generating a dataset.json
     generate_dataset_json(join(out_base, 'dataset.json'), target_imagesTr, target_imagesTs, ('Red', 'Green', 'Blue'),
                          labels={0: 'background', 1: 'disc',2: 'cup'}, dataset_name=task_name, license='hands off!')
+    
+
 
     
     

@@ -2,12 +2,12 @@ close all
 clear all
 clc
 %%  SET
-path_to_data = 'D:\Preprocesing';
+path_to_data = 'D:\DATA_DP_oci\Preprocesing_35px';
 path_to_data= [path_to_data '\'];
 
 %% Creation of test and train dataset for nnU-Net
 percentage_number_test=0.2; % 20% of image will be in test dataset
-path_export_file='D:\DATA\Data_25px_nn_unet\';
+path_export_file='D:\DATA_DP_oci\Data_35px_nn_unet\';
 
 % Creatio of file structure for creation of database
 if ~exist(path_export_file, 'dir')

@@ -62,6 +62,7 @@ def convert_2d_image_to_nifti(input_filename: str, output_filename_truncated: st
         img = transform(img)
 
     if len(img.shape) == 2:  # 2d image with no color channels
+        img = img.transpose((1, 0))
         img = img[None, None]  # add dimensions
     else:
         assert len(img.shape) == 3, "image should be 3d with color channel last but has shape %s" % str(img.shape)
@@ -140,6 +141,7 @@ def generate_dataset_json(output_file: str, imagesTr_dir: str, imagesTs_dir: str
         print("WARNING: output file name is not dataset.json! This may be intentional or not. You decide. "
               "Proceeding anyways...")
     save_json(json_dict, os.path.join(output_file), sort_keys=sort_keys)
+
 
 def save_json(obj, file: str, indent: int = 4, sort_keys: bool = True) -> None:
     with open(file, 'w') as f:
