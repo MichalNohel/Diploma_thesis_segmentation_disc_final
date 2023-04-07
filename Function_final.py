@@ -30,9 +30,12 @@ from json import JSONEncoder
 ## Dataloader
 
 class DataLoader(torch.utils.data.Dataset):
-    def __init__(self,split="Train",output_size=(int(448),int(448),int(3)),path_to_data="D:\Diploma_thesis_segmentation_disc_v2\Data_480_480_35px_preprocesing_all_database"):
+    def __init__(self,split="Train",output_size=(int(448),int(448),int(3)),path_to_data="D:\DATA_DP_oci\Data_360_360_25px_preprocesing",OD_center_available=True,sigma_detection=25,size_of_erosion=40):
         self.split=split
         self.output_size=output_size
+        self.OD_center_available=OD_center_available
+        self.sigma_detection=sigma_detection
+        self.size_of_erosion=size_of_erosion
         
         if split=="Train":
             self.path_to_data=path_to_data+ '/' +split
@@ -61,8 +64,6 @@ class DataLoader(torch.utils.data.Dataset):
             self.files_img=glob.glob(self.path_to_data+'/Images/*.png')
             self.files_img_orig=glob.glob(self.path_to_data+'/Images_orig/*.png')
             self.files_img_orig_full=glob.glob(self.path_to_data+'/Images_orig_full/*.png')
-            self.files_disc=glob.glob(self.path_to_data+'/Disc/*.png')
-            self.files_cup=glob.glob(self.path_to_data+'/Cup/*.png')
             self.files_fov=glob.glob(self.path_to_data+'/Fov/*.png')
             self.disc_centres_test=loadmat(self.path_to_data+'/Disc_centres_test_UBMI.mat')          
             self.num_of_imgs=len(self.files_img)
@@ -134,28 +135,26 @@ class DataLoader(torch.utils.data.Dataset):
             img_full=imread(self.files_img[index])
             img_orig_full=imread(self.files_img_orig[index])
             img_orig_neprevzorkovany=imread(self.files_img_orig_full[index])
-            disc_orig=imread(self.files_disc[index]).astype(bool)
-            cup_orig=imread(self.files_cup[index]).astype(bool)
             fov_orig=imread(self.files_fov[index]).astype(bool)
             output_size=self.output_size
             
-            output_crop_image,output_crop_orig_image, output_mask_disc,output_mask_cup=Crop_image(img_full,img_orig_full,disc_orig,cup_orig,output_size, self.disc_centres_test.get('Disc_centres_test')[index])
+            if (self.OD_center_available):
+                coordinates=self.disc_centres_test.get('Disc_centres_test')[index].astype(np.int16)            
+                output_crop_image,output_crop_orig_image=Crop_image_UBMI(img_full,img_orig_full,output_size, self.disc_centres_test.get('Disc_centres_test')[index])
+            else:
+                coordinates=Detection_of_disc(img_full,fov_orig,self.sigma_detection,self.size_of_erosion)
+                coordinates=np.array(coordinates)
+                output_crop_image,output_crop_orig_image=Crop_image_UBMI(img_full,img_orig_full,output_size, coordinates)
+                
+            
             
             img_orig_crop=output_crop_orig_image.astype(np.float32)
             img_crop=output_crop_image.astype(np.float32)
                         
-            #Creation of labels masks: batch x width x height
-            mask_output_size=(int(2),output_size[0],output_size[1]) # output size of image
-            mask_output=np.zeros(mask_output_size)
-            mask_output[0,:,:]=output_mask_disc
-            mask_output[1,:,:]=output_mask_cup
-                            
-            mask_output=mask_output.astype(bool)
             img_crop=TF.to_tensor(img_crop)
             img_orig_crop=TF.to_tensor(img_orig_crop)
-            mask_output=torch.from_numpy(mask_output)
-            coordinates=self.disc_centres_test.get('Disc_centres_test')[index].astype(np.int16)
-            return img_crop,img_orig_crop, mask_output, img_full, img_orig_full, disc_orig, cup_orig, coordinates, img_orig_neprevzorkovany
+            
+            return img_crop,img_orig_crop, img_full, img_orig_full, coordinates, img_orig_neprevzorkovany
 
     ## Function for data augmentation
     
@@ -230,6 +229,29 @@ def Crop_image(image,image_orig,mask_disc,mask_cup,output_image_size,center_new)
     output_mask_disc=mask_disc[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1]]
     output_mask_cup=mask_cup[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1]]
     return output_crop_image, output_crop_orig_image,output_mask_disc,output_mask_cup
+
+def Crop_image_UBMI(image,image_orig,output_image_size,center_new): 
+    size_in_img=image.shape
+    x_half=int(output_image_size[0]/2)
+    y_half=int(output_image_size[1]/2)  
+    
+    if ((center_new[1]-x_half)<0):
+        x_start=0
+    elif ((center_new[1]+x_half)>size_in_img[0]):
+        x_start=size_in_img[0]-output_image_size[0]
+    else:
+        x_start=center_new[1]-x_half           
+    
+    if ((center_new[0]-y_half)<0):
+        y_start=0
+    elif ((center_new[0]+y_half)>size_in_img[1]):
+        y_start=size_in_img[1]-output_image_size[1]
+    else:
+        y_start=center_new[0]-y_half
+    
+    output_crop_image=image[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1],:]
+    output_crop_orig_image=image_orig[x_start:x_start+output_image_size[0],y_start:y_start+output_image_size[1],:]
+    return output_crop_image, output_crop_orig_image
 #%%
 ## U-Net
 class unetConv2(nn.Module):
