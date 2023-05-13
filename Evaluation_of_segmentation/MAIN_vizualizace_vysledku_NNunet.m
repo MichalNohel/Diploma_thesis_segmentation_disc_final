@@ -1,36 +1,32 @@
 clear all
 close all
 clc
-%% Evaluace masek pro rozlišení 35px
-path_to_output_nnUnet=[pwd '\Output_nnUnet/'];
+%% Vizualizace masek z nnUNet pro rozlišení 25px
+path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_nnUNet\';
+
+path_to_output_nnUnet=[path_to_data '\Result_OD_detection_25px/'];
 Output_NN_unet = dir([path_to_output_nnUnet '*.nii.gz']);
 
-path_to_GT=[pwd '/labelsTs/'];
+path_to_GT=[path_to_data '/labelsTs/'];
 GT_file = dir([path_to_GT '*.nii.gz']);
 
-path_to_image=[pwd '/imagesTs/'];
+path_to_image=[path_to_data '/imagesTs/'];
 image_file = dir([path_to_image '*.nii.gz']);
 
-Dice_disc=[];
-Dice_cup=[];
+%% Vizualizace masek z nnUNet pro rozlišení 35px
+path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_nnUNet\';
 
-error_area_disc=[];
-error_area_cup=[];
+path_to_output_nnUnet=[path_to_data '\Result_OD_detection_35px/'];
+Output_NN_unet = dir([path_to_output_nnUnet '*.nii.gz']);
 
-abs_error_disc=[];
-abs_error_cup=[];
-rel_error_disc=[];
-rel_error_cup=[];
+path_to_GT=[path_to_data '/labelsTs/'];
+GT_file = dir([path_to_GT '*.nii.gz']);
 
-abs_error_disc_mean=[];
-abs_error_cup_mean=[];
-rel_error_disc_mean=[];
-rel_error_cup_mean=[];
+path_to_image=[path_to_data '/imagesTs/'];
+image_file = dir([path_to_image '*.nii.gz']);
 
-Error_of_segmentation_disc=[];
-Error_of_segmentation_cup=[];
 %%
-i=20
+i=100
 clear image
 image(:,:,1)=niftiread([image_file(((i-1)*3)+1).folder '\' image_file(((i-1)*3)+1).name]);
 image(:,:,2)=niftiread([image_file(((i-1)*3)+2).folder '\' image_file(((i-1)*3)+2).name]);
