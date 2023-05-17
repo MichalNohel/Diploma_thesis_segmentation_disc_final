@@ -2,12 +2,12 @@ clear all
 close all
 clc
 %% Evaluace masek pro rozlišení 25px
-% path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_nnUNet\';
-% path_to_output_nnUnet=[path_to_data '\Result_OD_detection_25px/'];
+path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_nnUNet\';
+path_to_output_nnUnet=[path_to_data '\Result_OD_detection_25px/'];
 
 %% Evaluace masek pro rozlišení 35px
-path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_nnUNet\';
-path_to_output_nnUnet=[path_to_data '\Result_OD_detection_35px/'];
+% path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_nnUNet\';
+% path_to_output_nnUnet=[path_to_data '\Result_OD_detection_35px/'];
 
 %% Path to GT data
 path_to_GT=[path_to_data '/labelsTs/'];
@@ -16,11 +16,11 @@ path_to_GT=[path_to_data '/labelsTs/'];
 % Output_NN_unet = dir([path_to_output_nnUnet '*.nii.gz']);
 % GT_file = dir([path_to_GT '*.nii.gz']);
 %% refuge databse
-Output_NN_unet = dir([path_to_output_nnUnet 'refuge*.nii.gz']); %pro evaluaci refuge
-GT_file = dir([path_to_GT 'refuge*.nii.gz']);
+% Output_NN_unet = dir([path_to_output_nnUnet 'refuge*.nii.gz']); %pro evaluaci refuge
+% GT_file = dir([path_to_GT 'refuge*.nii.gz']);
 %% drishti databse
-% Output_NN_unet = dir([path_to_output_nnUnet 'drishti*.nii.gz']); %pro evaluaci refuge
-% GT_file = dir([path_to_GT 'drishti*.nii.gz']);
+Output_NN_unet = dir([path_to_output_nnUnet 'drishti*.nii.gz']); %pro evaluaci refuge
+GT_file = dir([path_to_GT 'drishti*.nii.gz']);
 
 
 

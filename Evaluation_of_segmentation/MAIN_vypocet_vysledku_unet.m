@@ -2,18 +2,18 @@ clear all
 close all
 clc
 %% Evaluace masek pro rozlišení 25px
-path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_unet\';
-images_file = dir([path_to_data]);
-
-%% Evaluace masek pro rozlišení 35px
-% path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_unet\';
+% path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_unet\';
 % images_file = dir([path_to_data]);
 
+%% Evaluace masek pro rozlišení 35px
+path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_35px\Output_unet\';
+images_file = dir([path_to_data]);
+
 %% evaluace dristhi
-images_file = images_file(1:53);
+% images_file = images_file(1:53);
 
 %% evaluace refuge
-% images_file = images_file([1:2,62:461]);
+images_file = images_file([1:2,62:461]);
 
 %%
 images_file(1:2)=[]; 
