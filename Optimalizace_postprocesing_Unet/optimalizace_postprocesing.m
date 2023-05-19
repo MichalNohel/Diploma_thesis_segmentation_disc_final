@@ -1,6 +1,9 @@
 clear all
 close all
 clc
+%%
+% Skript, kde se optimalizoval postprocesing klasického U-Netu
+%%
 %% Evaluace masek pro rozlišení 35px
 path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_unet';
 images_file = dir(path_to_data);

@@ -1,4 +1,4 @@
-Popis jednotlivých složek a skript:
+Popis jednotlivých složek a skriptů:
 
 1) Preprocessing - složka obsahující veškeré potřebné funkce a skripty pro přípravu databází
 	1a) První hlavním skriptem je FOLDER_CREATION
@@ -24,6 +24,7 @@ Popis jednotlivých složek a skript:
 	
 2) Optimalizace sigma - složka se skripty, kde se optimalizovala hodnota sigma pro detekci OD	
 
+3) Optimalizace_postprocesing - složka se skripty, kde se optimalizoval postprocesing klasického U-Netu
 
-	
+
 	

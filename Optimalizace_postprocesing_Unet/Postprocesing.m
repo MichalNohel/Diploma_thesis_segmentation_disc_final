@@ -1,5 +1,7 @@
 function [output_final]=Postprocesing(output,min_size,type_of_morphing,size_of_disk,ploting) 
-
+%%
+% Funkce pro optimalizaci postprocesingu
+%%
 if sum(output)==0
     output_final=output;
     return
