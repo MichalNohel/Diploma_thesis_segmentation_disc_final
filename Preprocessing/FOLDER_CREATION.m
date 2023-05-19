@@ -5,11 +5,13 @@ clc
 % Skript který vytvoří adresář nutný pro předzpracování dat
 
 % path=cd;  %cesta do složky, kde bude vytvořen adresář pro předzpracování dat
-path='D:\DATA_DP_oci\Preprocesing_35px_sigma80';
+path='D:\DATA_DP_oci\Preprocesing_35px';
 if ~exist(path, 'dir')
     mkdir(path)
 end
 
+% Vytváření jednotlivých adresářů dle potřeb daných databází a složek pro
+% předzpracování a vytvoření nových databází
 %% Drishti-GS
 name='\Drishti-GS';
 if ~exist([path name], 'dir')
