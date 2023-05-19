@@ -1,6 +1,9 @@
 close all
 clear all
 clc
+%%
+% Skript, ve kterém se optimalizovala hodnota sigma pro detekci optického
+% disku
 %%  SET
 %%25px
 % path_to_data = 'D:\DATA_DP_oci\Data_360_360_25px_preprocesing';

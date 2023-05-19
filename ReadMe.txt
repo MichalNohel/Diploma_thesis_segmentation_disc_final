@@ -22,7 +22,7 @@ Popis jednotlivých složek a skript:
 	1g) Skript dataset_conversion_to_nnunetv2 
 		Skript v Pythonu pro přípravu datastruktury potřebné pro nnUNetv2 
 	
-		
+2) Optimalizace sigma - složka se skripty, kde se optimalizovala hodnota sigma pro detekci OD	
 
 
 	
