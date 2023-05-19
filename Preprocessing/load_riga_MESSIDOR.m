@@ -1,5 +1,11 @@
 function[] = load_riga_MESSIDOR(rc, path, sigma, Num_tiles_param, ClipLimit)
-
+%%
+% Funkce pro předzpracování databáze
+% rc - int - Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
+% path - string - cesta k datům
+% sigma, Num_tiles_param, ClipLimit - int - Nastavení parametrů pro modifikaci jasu
+%%
+% rozlišení databáze
 %% RIGA - MESSIDOR
 degree = 45;
 images=[];

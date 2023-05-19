@@ -8,7 +8,7 @@ clc
 path='D:\DATA_DP_oci\Preprocesing_35px';
 if ~exist(path, 'dir')
     mkdir(path)
-end
+end 
 
 % Vytváření jednotlivých adresářů dle potřeb daných databází a složek pro
 % předzpracování a vytvoření nových databází

@@ -1,4 +1,9 @@
 function []=GT_disc_center_creation(path,database)
+%%
+% Funkce pro vytvoření GT pozic optického disku
+% path - string - cesta k datům
+% database - string - název databáze
+%%
 
 switch database
     case 'dristhi-gt'

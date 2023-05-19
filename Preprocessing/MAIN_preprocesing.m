@@ -2,7 +2,7 @@ close all
 clear all
 clc
 %%  SET
-%nastavení cesty k vytvořené struktuře a nahranm datům
+% nastavení cesty k vytvořené struktuře a nahraným datům
 path_to_data = 'D:\DATA_DP_oci\Preprocesing_35px';
 path_to_data= [path_to_data '\'];
 
@@ -28,7 +28,7 @@ ClipLimit=0.005;
 % převzorkovat a parametry pro modifikaci jasu, dále následuje funkce pro
 % vytvoření GT středů optického disku.
 %% Drishti-GS
-path=[path_to_data 'Drishti-GS\'];
+path=[path_to_data 'Drishti-GS\']; 
 load_drishtigs(resolution, path, sigma_preprocesing, Num_tiles_param, ClipLimit );
 GT_disc_center_creation(path,'dristhi-gt')
 %% HRF

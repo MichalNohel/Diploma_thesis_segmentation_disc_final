@@ -1,5 +1,14 @@
 function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,sigma,size_of_erosion,percentage_number_test,path_export_file)
-    
+    %%    
+    % Funkce, která vytváří trénovací a testovací dataset pro kalsický U-Net
+    % path_to_data - string - cesta k datům z preprocesingu
+    % output_image_size - int - veliksot patche
+    % sigma - int - velikost sigma pro detekci optického disku
+    % size_of_erosion - int - velikost o kolik se bude erodovat maska FOV
+    % percentage_number_test - int - kolik procent dat bude použito jako testovacích
+    % path_export_file - string - cesta, kde se má vytvořit databaze pro U-Net
+    %%
+
     % Creatio of file structure for creation of database
     if ~exist(path_export_file, 'dir')
         mkdir(path_export_file)
@@ -37,17 +46,21 @@ function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,si
 
 
     %% Dristi-GS train  - Expert 1
+    % definice cest k souborům
     images_file = dir([path_to_data '\Drishti-GS\Images\*.png']);
     images_orig_file = dir([path_to_data '\Drishti-GS\Images_orig\*.png']);
     disc_file = dir([path_to_data '\Drishti-GS\Disc\expert1\*.png']);
     cup_file = dir([path_to_data '\Drishti-GS\Cup\expert1\*.png']);
     fov_file = dir([path_to_data '\Drishti-GS\Fov\*.png']);
     
+    % načtení pozic detekovaných OD
     coordinates_dristi_GS=load([path_to_data '\Drishti-GS\coordinates_dristi_GS.mat']);
     coordinates=coordinates_dristi_GS.coordinates_dristi_GS;
     num_of_img=length(images_file);
     split=52; % split to test and train dataset
     
+    % Funkce, která provede vytvoření trénovacího a testovacího datasetu
+    % pro U-Net z každého veřeně dostupného datasetu, definice funkce je na konci skriptu
     creation_of_crop_images(output_image_size,images_orig_file,images_file,disc_file,cup_file,fov_file,sigma,size_of_erosion,coordinates,path_export_file,split)
     
     
@@ -228,6 +241,11 @@ function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,si
     
     %% Functions        
     function [output_crop_image, output_crop_image_orig, output_mask_disc,output_mask_cup]=Crop_image(image,image_orig,mask_disc,mask_cup,output_image_size,center_new)
+        %%
+        % Funkce, která provede dle detekovaného optického disku ořez patche
+        % vstupem jsou originální obraz, maska disku, cupu a fov, velikost jak má být velký patch a pozice OD
+        % vystupem jsou ořezané snímky
+        %%
         size_in_img=size(image);
         x_half=round(output_image_size(1)/2);
         y_half=round(output_image_size(2)/2);
@@ -259,9 +277,21 @@ function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,si
     end
     
     function []= creation_of_crop_images(output_image_size,images_orig_file,images_file,disc_file,cup_file,fov_file,sigma,size_of_erosion,coordinates,path_to_crop_image,split )
+        %%
+        % Funkce ve které je vytvořen trénovací a testovací dataset pro
+        % klasický U-Net, kdy je detekován optický disk a následně pro
+        % trénovací dataset ořízlý snímek o dané velikosti, který je
+        % následně uložen 
+        % output_image_size - int - veliksot patche
+        % images_orig_file,images_file,disc_file,cup_file,fov_file - string- cesty ke složkám s obrazy, maskami a fov
+        % sigma - int - velikost sigma pro detekci optického disku
+        % size_of_erosion - int - velikost o kolik se bude erodovat maska FOV
+        % split - int - kolik procent dat bude použito jako testovacích
+        % path_to_crop_image - string - cesta, kde se má vytvořit databaze pro U-Net
+        % coordinates - int - GT pozice optického disku v případě selhání detekce
+        %%
         num_of_img=length(images_file);
         for i=1:num_of_img
-            %expert 1
             image=imread([images_file(i).folder '\' images_file(i).name ]); 
             image_orig=imread([images_orig_file(i).folder '\' images_orig_file(i).name ]); 
             mask_disc=logical(imread([disc_file(i).folder '\' disc_file(i).name ]));  
@@ -269,19 +299,22 @@ function []=creation_of_train_and_test_dataset(path_to_data,output_image_size,si
             fov=imread([fov_file(i).folder '\' fov_file(i).name ]);    
               
             if i>=split
+                % Funkce pro detekci optického disku
                 [center_new] = Detection_of_disc(image,fov,sigma,size_of_erosion);
                 if mask_disc(center_new(2),center_new(1))~=1
                     center_new(1)=coordinates(i,1);
                     center_new(2)=coordinates(i,2);
                 end
+                % Funkce, která na zákaldě OD udělá patch pro trénování 
                 [output_crop_image, output_crop_image_orig, output_mask_disc,output_mask_cup]=Crop_image(image,image_orig,mask_disc,mask_cup,output_image_size,center_new);
-              
+                % uložení dat na trénování
                 imwrite(output_crop_image,[path_to_crop_image 'Train\Images_crop\' images_file(i).name])
                 imwrite(output_crop_image_orig,[path_to_crop_image 'Train\Images_orig_crop\' images_file(i).name])
                 imwrite(output_mask_disc,[path_to_crop_image 'Train\Disc_crop\' disc_file(i).name])
                 imwrite(output_mask_cup,[path_to_crop_image 'Train\Cup_crop\' cup_file(i).name])
                 imwrite(image,[path_to_crop_image 'Train\Images\' images_file(i).name])
             else
+                % uložení dat na testování
                 imwrite(image,[path_to_crop_image 'Test\Images\' images_file(i).name])
                 imwrite(image_orig,[path_to_crop_image 'Test\Images_orig\' images_file(i).name])
                 imwrite(mask_disc,[path_to_crop_image 'Test\Disc\' disc_file(i).name])

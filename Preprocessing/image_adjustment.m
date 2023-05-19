@@ -1,11 +1,14 @@
 function [I2,M1,M2,M3,F]=image_adjustment(im,rc,degree,M1,M2,M3, dat, fov)
-    im=im2double(im);
-    [rad,sloup,polomer,fov]=souradnice(im, dat, fov);
-    
-    minr=(rad-polomer)*(polomer<rad)+1*(polomer>=rad);
-    maxr=(rad+polomer)*(size(im,1)>=(rad+polomer))+size(im,1)*(size(im,1)<(rad+polomer));
-    minc=(sloup-polomer)*(polomer<sloup)+1*(polomer>=sloup);
-    maxc=(sloup+polomer)*(size(im,2)>=(sloup+polomer))+size(im,2)*(size(im,2)<(sloup+polomer));
+%%
+% Funkce, která ořeže data podle FOV a převzorkuje data na požadované rozlišení a vrací je zpět
+%%
+im=im2double(im);
+[rad,sloup,polomer,fov]=souradnice(im, dat, fov);
+
+minr=(rad-polomer)*(polomer<rad)+1*(polomer>=rad);
+maxr=(rad+polomer)*(size(im,1)>=(rad+polomer))+size(im,1)*(size(im,1)<(rad+polomer));
+minc=(sloup-polomer)*(polomer<sloup)+1*(polomer>=sloup);
+maxc=(sloup+polomer)*(size(im,2)>=(sloup+polomer))+size(im,2)*(size(im,2)<(sloup+polomer));
 
 I = im(minr:maxr,minc:maxc,:);
 I2=imresize(I,(rc*degree)/length(I)); 

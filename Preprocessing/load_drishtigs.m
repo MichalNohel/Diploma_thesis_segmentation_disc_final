@@ -1,4 +1,12 @@
 function[] = load_drishtigs(rc, path, sigma, Num_tiles_param, ClipLimit)
+%%
+% Funkce pro předzpracování databáze, využívají se zde funkce
+% image_adjustment a modifikace jasu
+% rc - int - Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
+% path - string - cesta k datům
+% sigma, Num_tiles_param, ClipLimit - int - Nastavení parametrů pro modifikaci jasu
+%%
+% rozlišení databáze
 degree = 30;
 
 %% Drihsti-GS Train

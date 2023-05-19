@@ -2,6 +2,7 @@ close all
 clear all
 clc
 %%  SET
+% nastavení cesty k vytvořené struktuře a předzpracovaným datům
 path_to_data = 'D:\DATA_DP_oci\Preprocesing_35px';
 path_to_data= [path_to_data '\'];
 
@@ -35,6 +36,7 @@ cup_file = dir([path_to_data '\Drishti-GS\Cup\expert1\*.png']);
 
 pom=52; % split to test and train dataset
 
+% Funkce, která provede rozdělení dat na trénovací a testovací dataset
 creation_of_nn_unet_dataset(images_file,disc_file,cup_file,pom,path_export_file)
 load chirp
 sound(y/10,Fs)
@@ -141,6 +143,9 @@ sound(y/10,Fs)
 
 %%
 function []= creation_of_nn_unet_dataset(images_file,disc_file,cup_file,pom,path_export_file)
+%%
+% Funkce co připraví trénovací a testovací dataset pro nnUNet
+%%
     num_of_img=length(images_file);
     for i=1:num_of_img
         %expert 1

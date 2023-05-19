@@ -1,4 +1,11 @@
 function[] = load_refuge(rc, path, sigma, Num_tiles_param, ClipLimit)
+%%
+% Funkce pro předzpracování databáze
+% rc - int - Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
+% path - string - cesta k datům
+% sigma, Num_tiles_param, ClipLimit - int - Nastavení parametrů pro modifikaci jasu
+%%
+% rozlišení databáze
 degree = 45;
 
 %% REFUGE Training

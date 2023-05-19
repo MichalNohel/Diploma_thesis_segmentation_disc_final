@@ -1,4 +1,16 @@
 function[center_new] = Detection_of_disc(image,fov,sigma,velikost_erodovani)
+    %%
+    % Funkce, která detekuje optický disk
+    % Vstupem:
+    % image,fov - image - originální předpracovaná obraz a fov 
+    % sigma - int - velikost sigma pro detekci optického disku
+    % size_of_erosion - int - velikost o kolik se bude erodovat maska FOV
+
+    % Výstup
+    % center_new - vector int - pozice optického disku
+
+    
+    %%
 %     image=im2double(image);
     image=rgb2xyz(im2double(image));
     image=rgb2gray(image);

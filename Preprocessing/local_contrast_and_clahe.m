@@ -1,10 +1,11 @@
 function [img_interp] = local_contrast_and_clahe(img,mask0)
+%%
+% Funkce na normlaizaci co používá nastaveni natvrdo
+%%
 
 ClipLimit = 0.005;
 sigma = 80 / (55/25);
 kernel = 250 / (55/25);
-
-
 
 mask = imerode(mask0,strel('disk',1));
 
