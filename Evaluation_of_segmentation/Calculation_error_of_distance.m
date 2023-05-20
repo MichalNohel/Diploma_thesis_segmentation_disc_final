@@ -1,4 +1,8 @@
 function [abs_error_disc,abs_error_cup,rel_error_disc,rel_error_cup]= Calculation_error_of_distance(disc_GT,disc_output_net,cup_GT,cup_output_net)
+    %%
+    % Funkce pro výpočet chyby vzdálenosti, kdy se počítá jak absolutní
+    % chyba tak relativní vztažená ku poloměru optického disku
+    %%
     [coordinates_disc_GT,coordinates_disc_net,coordinates_cup_GT,coordinates_cup_net]= Get_intersection(disc_GT,disc_output_net,cup_GT,cup_output_net);
     
     center_disc=round(regionprops(disc_GT,"Centroid").Centroid);

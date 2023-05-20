@@ -1,6 +1,9 @@
 clear all
 close all
 clc
+%%
+% Skript pro výpočet hodnotících metrik pro nnUNet  
+
 %% Evaluace masek pro rozlišení 25px
 path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_nnUNet\';
 path_to_output_nnUnet=[path_to_data '\Result_OD_detection_25px/'];
@@ -23,8 +26,7 @@ Output_NN_unet = dir([path_to_output_nnUnet 'drishti*.nii.gz']); %pro evaluaci r
 GT_file = dir([path_to_GT 'drishti*.nii.gz']);
 
 
-
-%%
+%% Definice proměnných
 Dice_disc=[];
 Dice_cup=[];
 
@@ -49,7 +51,7 @@ Error_of_segmentation_cup=[];
 
 
 
-%%
+%% Procházení všech segmentací a porovnání s GT
 for i=1:length(Output_NN_unet)
     GT_lbl=niftiread([GT_file(i).folder '\' GT_file(i).name]);
     Output_NN_unet_lbl=niftiread([Output_NN_unet(i).folder '\' Output_NN_unet(i).name]);
@@ -93,7 +95,7 @@ for i=1:length(Output_NN_unet)
     end
     disp(i)
 end
-%%
+%% Zobrazeni výsledků
 disp('Disk')
 disp(['Počet chybících segmentaci disku ' num2str(sum(Error_of_segmentation_disc))])
 disp(['Pruměrný DICE disku je ' num2str(mean(Dice_disc))])

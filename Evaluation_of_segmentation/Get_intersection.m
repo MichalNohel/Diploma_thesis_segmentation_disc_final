@@ -1,4 +1,9 @@
 function [coordinates_disc_GT,coordinates_disc_net,coordinates_cup_GT,coordinates_cup_net]= Get_intersection(disc_GT,disc_output_net,cup_GT,cup_output_net)    
+    %%
+    % Pomocná funkce pro výpočet chyby vzdáleností kdy vstupem jsou segmetnace optického disku a cupu
+    % Výstupem jsou souřadnice protnutí přímky ze středu optického disku s
+    % konturou pod daným úhlem.
+    %%
     center=round(regionprops(disc_GT,"Centroid").Centroid);
     c_x=center(1);
     c_y=center(2);

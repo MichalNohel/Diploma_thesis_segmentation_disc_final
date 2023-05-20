@@ -1,6 +1,10 @@
 clear all
 close all
 clc
+%%
+% Skript pro vizualizaci výsledků segmentace z nnUNetu a zkouška převedení
+% vizualizace NIfTI dat.
+
 %% Vizualizace masek z nnUNet pro rozlišení 25px
 path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\Output_nnUNet\';
 

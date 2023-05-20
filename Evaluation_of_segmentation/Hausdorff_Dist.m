@@ -1,5 +1,7 @@
 function HD = Hausdorff_Dist(A, B)
-
+%%
+% Výpočet Hausdorfovy vzdálenosti masek A a B
+%%
 A = logical(A);
 B = logical(B);
 

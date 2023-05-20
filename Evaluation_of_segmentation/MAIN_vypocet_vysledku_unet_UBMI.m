@@ -1,6 +1,8 @@
 clear all
 close all
 clc
+%%
+% Skript pro výpočet hodnotících metrik pro U-Net na UBMI databázi
 %% Evaluace masek pro rozlišení 25px
 % path_to_data='D:\DATA_DP_oci\Vysledky\Rozliseni_25px\';
 
@@ -24,7 +26,8 @@ GT_disc_file=[GT_disc_file; dir([path_to_data '\Sada02_manualy_GT\Disc\*.png'])]
 GT_cup_file=dir([path_to_data '\Sada01_manualy_GT\Cup\*.png']);
 GT_cup_file=[GT_cup_file; dir([path_to_data '\Sada02_manualy_GT\Cup\*.png'])];
 
-%%
+
+%% Definice proměnných
 Dice_disc=[];
 Dice_cup=[];
 
@@ -47,7 +50,7 @@ rel_error_cup_mean=[];
 Error_of_segmentation_disc=[];
 Error_of_segmentation_cup=[];
 
-%%
+%% Procházení všech segmentací a porovnání s GT
 for i=1:length(images_file)
     disc_output_net=logical(imread([images_file(i).folder '\' images_file(i).name '\' images_file(i).name '_Disc_output.png']));
     cup_output_net=logical(imread([images_file(i).folder '\' images_file(i).name '\' images_file(i).name '_Cup_output.png']));
@@ -92,7 +95,7 @@ for i=1:length(images_file)
     disp(i)
 end
 
-%%
+%% Zobrazeni výsledků
 disp('Disk')
 disp(['Počet chybících segmentaci disku ' num2str(sum(Error_of_segmentation_disc))])
 disp(['Pruměrný DICE disku je ' num2str(mean(Dice_disc))])

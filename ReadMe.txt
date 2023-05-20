@@ -17,14 +17,23 @@ Popis jednotlivých složek a skriptů:
 		Skript v Pythonu pro přeuložení dat do NIfTI 	
 		Pro spuštění tohoto skriptu je potřeba nainstalovat environment env_nnUNet_preprocesing.yml 
 	1f) functions_MAIN_Part2.py 
-		funkce v Pythonu pro přeuložení dat do nifti a pak pro přeuložení pro nnUNetv2
-		
+		funkce v Pythonu pro přeuložení dat do nifti a pak pro přeuložení pro nnUNetv2		
 	1g) Skript dataset_conversion_to_nnunetv2 
 		Skript v Pythonu pro přípravu datastruktury potřebné pro nnUNetv2 
-	
+	ostatní - funkce využívané v hlavních skriptech	
 2) Optimalizace sigma - složka se skripty, kde se optimalizovala hodnota sigma pro detekci OD	
 
 3) Optimalizace_postprocesing - složka se skripty, kde se optimalizoval postprocesing klasického U-Netu
 
-
-	
+4) Evaluation_of_segmentation - složka se skripty a funkcemi pro vyhodnocení úspěšnosti segmentace
+	4a) MAIN_vizualizace_vysledku_NNunet
+		Pouze skript pro vizualizaci výsledků z nnUNetu
+	4b) MAIN_vypocet_vysledku_NNunet
+		Skript pro výpočet výsledků segmentace s využitím nnUNetu
+	4c) MAIN_vypocet_vysledku_NNunet_UBMI
+		Skript pro výpočet výsledků segmentace s využitím nnUNetu na UBMI databázi
+	4d) MAIN_vypocet_vysledku_unet
+		Skript pro výpočet výsledků segmentace s využitím U-Netu
+	4e) MAIN_vypocet_vysledku_unet_UBMI
+		Skript pro výpočet výsledků segmentace s využitím U-Netu na UBMI databázi
+	ostatní - funkce pro výpočet metrik
