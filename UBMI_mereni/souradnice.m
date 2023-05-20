@@ -1,4 +1,7 @@
 function [rad,sloup,prumer,fov]=souradnice(im, database,fov)
+%%
+% Funkce která zjištuje fov 
+%%
 database=string(database);
 
 if length(fov)>5

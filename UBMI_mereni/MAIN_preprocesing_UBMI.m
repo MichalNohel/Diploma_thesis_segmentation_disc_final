@@ -1,7 +1,10 @@
 close all
 clear all
 clc
+%%
+%Skript pto preprocessing databáze UBMI 
 %%  SET
+% nastavení cesty k vytvořené struktuře a nahraným datům
 path_to_data = 'D:\DATA_DP_oci\Data_mereni_UBMI_35px';
 path_to_data= [path_to_data '\'];
 
@@ -31,6 +34,7 @@ path=[path_to_data 'Orig_sada01\'];
 folder_creation (path)
 load_mereni_UBMI(resolution, path, sigma_preprocesing, Num_tiles_param, ClipLimit);
 %%
+%funkce, která provádí detekci disku a v případě selhání se může detekce opravit
 disc_detection_UBMI_klikac(path, sigma_detection,size_of_erosion)
 
 %% SADA_02

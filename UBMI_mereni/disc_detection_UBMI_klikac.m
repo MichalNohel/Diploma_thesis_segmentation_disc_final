@@ -1,6 +1,6 @@
 function []=disc_detection_UBMI_klikac(path, sigma_detection,size_of_erosion)
-
-
+%%
+% Funkce pro kontrolu správnosti detekce optického disku a možnou korekci
 %% UBMI
 images = dir([path 'Images\*.png']);
 center_new_UBMI_mereni=[];

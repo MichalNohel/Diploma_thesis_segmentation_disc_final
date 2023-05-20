@@ -8,7 +8,7 @@ Created on Fri Apr  7 22:36:41 2023
 
 import os
 join = os.path.join
-from typing import List
+from typing import List 
 from skimage import io
 import numpy as np
 import SimpleITK as sitk

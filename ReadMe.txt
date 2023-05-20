@@ -37,3 +37,12 @@ Popis jednotlivých složek a skriptů:
 	4e) MAIN_vypocet_vysledku_unet_UBMI
 		Skript pro výpočet výsledků segmentace s využitím U-Netu na UBMI databázi
 	ostatní - funkce pro výpočet metrik
+
+5) UBMI_mereni 
+	5a) MAIN_preprocesing_UBMI
+		Skript slouží pro preprocessing snímků z UBMI databáze
+	5b) MAIN_disc_detection_UBMI_klikac
+		Skript pro manuální detekci optického disku
+	5c) MAIN_creation_of_nnunet_dataset_UBMI
+		Skript v Pythonu pro přeuložení dat do NIfTI 	
+		Pro spuštění tohoto skriptu je potřeba nainstalovat environment env_nnUNet_preprocesing.yml 

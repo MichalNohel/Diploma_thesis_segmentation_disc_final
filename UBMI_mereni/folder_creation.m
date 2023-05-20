@@ -1,4 +1,7 @@
 function [] = folder_creation (of)
+%%
+% Vytvoření složky, kam se budou data ukládat
+%%
 if ~exist([of '\Images'], 'dir')
     mkdir([of '\Images'])
 end

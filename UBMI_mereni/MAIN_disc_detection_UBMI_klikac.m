@@ -1,3 +1,6 @@
+%%
+% Skript pro manuální detekci optického disku
+%%
 sigma=25;
 size_of_erosion=40;
 %%

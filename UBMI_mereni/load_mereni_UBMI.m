@@ -1,7 +1,15 @@
 function[] = load_mereni_UBMI(rc, path, sigma_preprocesing, Num_tiles_param, ClipLimit)
+%%
+% Funkce pro předzpracování databáze, využívají se zde funkce
+% image_adjustment a modifikace jasu
+% rc - int - Nastaveni na jake rozlišeni počtu px na stupen se má převzorkovat
+% path - string - cesta k datům
+% sigma, Num_tiles_param, ClipLimit - int - Nastavení parametrů pro modifikaci jasu
+%%
+% rozlišení databáze
 degree = 45;
 
-%% HRF
+%% UBMI
 images = dir([path 'UBMI_mereni_orig\Images\*.png']);
 for i=1:length(images)
     
@@ -9,9 +17,11 @@ for i=1:length(images)
     
     im=imread([path 'UBMI_mereni_orig\Images\' images(i).name ]);
     fov=imread([path 'UBMI_mereni_orig\Fov\' in '_fov.png']);
-
+    
+    % Převzorkování dat
     [I,~,~,~, FOV]=image_adjustment(im,rc,degree,0,0,0, 'hrf', fov);
-
+    
+    % Normalizace dat
     [I_mod]=modifikace_jasu(I,FOV,sigma_preprocesing,Num_tiles_param,ClipLimit);
     
     imname= in ;

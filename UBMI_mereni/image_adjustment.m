@@ -1,4 +1,7 @@
 function [I2,M1,M2,M3,F]=image_adjustment(im,rc,degree,M1,M2,M3, dat, fov)
+%%
+% Funkce, která převzorkuje data na požadované rozlišení a vrací je zpět
+%%
 im=im2double(im);
 [rad,sloup,prumer,fov]=souradnice(im, dat, fov);
 
