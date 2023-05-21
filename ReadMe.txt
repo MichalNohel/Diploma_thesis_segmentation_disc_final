@@ -52,6 +52,7 @@ Popis jednotlivých složek a skriptů:
 
 7) Trained_models_nnUNet_final
 	Složka kam se má stáhnout naučený model z cloudu
+	Ve složce je podrobnější návod pro spuštění nnUNetu
 
 env_diplomka_oci.yml - yml soubor pro vytvoření environmentu pro klasický U-Net
 env_nnUNet.yml - yml soubor pro vytvoření environmentu pro trénování a použití natrénovaného modelu nnUNet
