@@ -3,31 +3,33 @@
 Created on Wed Mar 22 12:55:33 2023
 
 @author: nohel
+
+Soubor se všemi funkcemi, které se využívali pro trénování klasického U-Netu
+
 """
 
-
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.nn.functional as F 
+# Import knihoven
 import glob
+import json
+from json import JSONEncoder
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.io import loadmat
 from skimage.io import imread
 from skimage.color import rgb2gray,rgb2xyz
 from skimage.morphology import disk,remove_small_objects, binary_closing, binary_opening
 from skimage.filters import gaussian
-
 from scipy.ndimage import binary_erosion 
 from scipy.ndimage.morphology import binary_fill_holes
-import torchvision.transforms.functional as TF
+import torch
+import torch.nn as nn
+import torch.nn.functional as F 
 from torch.nn import init
-import matplotlib.pyplot as plt
-from scipy.io import loadmat
+import torchvision.transforms.functional as TF
 
-import json
-from json import JSONEncoder
 
 #%%
-## Dataloader
+## Creation of dataloader
 
 class DataLoader(torch.utils.data.Dataset):
     def __init__(self,split="Train",output_size=(int(448),int(448),int(3)),path_to_data="D:\DATA_DP_oci\Data_360_360_25px_preprocesing",OD_center_available=True,sigma_detection=25,size_of_erosion=40):
@@ -146,8 +148,6 @@ class DataLoader(torch.utils.data.Dataset):
                 coordinates=np.array(coordinates)
                 output_crop_image,output_crop_orig_image=Crop_image_UBMI(img_full,img_orig_full,output_size, coordinates)
                 
-            
-            
             img_orig_crop=output_crop_orig_image.astype(np.float32)
             img_crop=output_crop_image.astype(np.float32)
                         
@@ -186,7 +186,7 @@ class DataLoader(torch.utils.data.Dataset):
             return img.copy(),img_orig.copy(),disc.copy(),cup.copy()
 # %%    
 ## Function for disc detection and croping of image
-def Detection_of_disc(image,fov,sigma,size_of_erosion):    #PŘEDĚLAT
+def Detection_of_disc(image,fov,sigma,size_of_erosion):    
     img=rgb2xyz(image).astype(np.float32)
     img=rgb2gray(img).astype(np.float32)
     BW=binary_erosion(fov,disk(size_of_erosion))

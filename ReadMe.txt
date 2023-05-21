@@ -46,3 +46,14 @@ Popis jednotlivých složek a skriptů:
 	5c) MAIN_creation_of_nnunet_dataset_UBMI
 		Skript v Pythonu pro přeuložení dat do NIfTI 	
 		Pro spuštění tohoto skriptu je potřeba nainstalovat environment env_nnUNet_preprocesing.yml 
+
+6) Trained_models_Unet_final
+	Složka ve které jsou nahrané naučené modely pro klasický U-Net
+
+7) Trained_models_nnUNet_final
+	Složka kam se má stáhnout naučený model z cloudu
+
+env_diplomka_oci.yml - yml soubor pro vytvoření environmentu pro klasický U-Net
+env_nnUNet.yml - yml soubor pro vytvoření environmentu pro trénování a použití natrénovaného modelu nnUNet
+env_nnUNet_preprocesing.yml - yml soubor s environmentem pro přípravu databáze pro nnUNet
+
