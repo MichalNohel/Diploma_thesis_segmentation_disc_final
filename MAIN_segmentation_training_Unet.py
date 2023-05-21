@@ -3,18 +3,20 @@
 Created on Tue May 24 12:39:07 2022
 
 @author: nohel
+
+Skript pro spuštěné trénování klasického U-Netu
 """
 
 
 # %% Library import
-import numpy as np
 from Function_final import DataLoader, Unet, dice_loss, dice_coefficient
+from IPython.display import clear_output
 import matplotlib.pyplot as plt
+import numpy as np
+import os
 import torch
 import torch.optim as optim
 from torch.optim.lr_scheduler import StepLR
-from IPython.display import clear_output
-import os
 
 #%%
 if __name__ == "__main__": 
@@ -23,11 +25,10 @@ if __name__ == "__main__":
     epochs=30
     batch=12
     threshold=0.5
-    #%%
-
-    # For resolution 35px
+    #%% For resolution 35px
     # size of crop image to training  
     output_size=(int(448),int(448),int(3))
+    
     #Path to data resolution 35px
     path_to_data="D:\DATA_DP_oci\Data_500_500_35px_preprocesing"
     path_to_save_model = os.getcwd() + '/Trained_models_final/U_net_res_35px_sigma_75/'
@@ -43,16 +44,14 @@ if __name__ == "__main__":
         os.makedirs(path_to_save_model)    
     name_of_model='model_Unet_35px_sigma_75_OS_448_448_3'  
     
-    #%%
+    #%% For resolution 25px
     '''
-    # For resolution 25px
     # size of crop image to training  
     output_size=(int(320),int(320),int(3))
-    #Path to data resolution 25px
     
+    #Path to data resolution 25px    
     path_to_data="D:\DATA_DP_oci\Data_360_360_25px_preprocesing"
-    path_to_save_model = os.getcwd() + '/Trained_models_final/U_net_res_25px_sigma_50/'
-    
+    path_to_save_model = os.getcwd() + '/Trained_models_final/U_net_res_25px_sigma_50/'    
     
     #path_to_data="D:\Diploma_thesis_segmentation_disc_v2/Data_320_320_25px_preprocesing_all_database"
     #path_to_save_model = os.getcwd() + '/Trained_models/U_net_resolution_25px/'
@@ -66,9 +65,7 @@ if __name__ == "__main__":
         
     name_of_model='model_Unet_25px_sigma_50_OS_320_320_3'  
     '''
-    #%%
-    
-    
+    #%%   
     #Dataloaders for Train and test data
     loader=DataLoader(split="Train",path_to_data=path_to_data,output_size=output_size)
     trainloader=torch.utils.data.DataLoader(loader,batch_size=batch, num_workers=0, shuffle=True)
@@ -104,8 +101,7 @@ if __name__ == "__main__":
         print('epoch number ' + str(epoch+1))
         
         #%%
-        #Train dataset
-        
+        #Train dataset        
         for k,(data,data_orig,lbl) in enumerate(trainloader):
             it_train+=1
             data=data.cuda()
@@ -341,14 +337,10 @@ if __name__ == "__main__":
 
 
                     
-                    #%%
-                   
+                    #%%                   
         test_loss.append(np.mean(loss_tmp))            
         test_dice_disc.append(np.mean(dice_tmp_disc)) 
-        test_dice_cup.append(np.mean(dice_tmp_cup))            
-        
-                     
-        
+        test_dice_cup.append(np.mean(dice_tmp_cup))               
         sheduler.step()
         #%%
         clear_output()
@@ -396,12 +388,9 @@ if __name__ == "__main__":
     #torch.save(net, 'model_01.pth')
     torch.save(net.state_dict(), path_to_save_model+ name_of_model+ '.pth')
     
+
     
-    
-    
-    
-    
-    #%%
+    #%% for vizualization
     '''
     plt.figure(figsize=[10,10])
     plt.subplot(4,4,1)    

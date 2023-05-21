@@ -57,3 +57,11 @@ env_diplomka_oci.yml - yml soubor pro vytvoření environmentu pro klasický U-N
 env_nnUNet.yml - yml soubor pro vytvoření environmentu pro trénování a použití natrénovaného modelu nnUNet
 env_nnUNet_preprocesing.yml - yml soubor s environmentem pro přípravu databáze pro nnUNet
 
+Function_final.py - skript, kde jsou definované všechny funkce pro učení a testování klasického U-Netu
+		  - Tyto funkce jsou využívány v následujícíh skriptech
+
+MAIN_segmentation_training_Unet.py - Skript pro spuštění trénování klasického U-Netu 
+
+MAIN_interference_Unet.py - Skript pro interferenci klasického U-Netu na připraveném testovacím datasetu 
+
+MAIN_interference_Unet_UBMI.py - Skript pro interferenci klasického U-Netu na datasetu UBMI  

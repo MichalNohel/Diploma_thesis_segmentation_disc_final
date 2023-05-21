@@ -3,15 +3,17 @@
 Created on Wed Mar  8 10:13:35 2023
 
 @author: nohel
+
+Skript pro intereferenci klasického U-Netu na připravené testovací databázi
 """
 
 from Function_final import DataLoader,Unet
 import matplotlib.pyplot as plt
-import torch
-import os
 import numpy as np 
+import os
 from skimage.io import imsave
 from skimage import  img_as_ubyte
+import torch
 
 if __name__ == "__main__": 
     ZAPISOVAT=True
@@ -27,7 +29,7 @@ if __name__ == "__main__":
     output_size=(int(320),int(320),int(3)) #Velikost vstupu síte 
     
     # Cesta k naucenemu modelu
-    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_25px_sigma_50/"
+    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_Unet_final/U_net_res_25px_sigma_50/"
      
     name_of_model='model_Unet_25px_sigma_50_OS_320_320_3'
     
@@ -47,7 +49,7 @@ if __name__ == "__main__":
     output_size=(int(448),int(448),int(3)) 
         
     # Cesta k naucenemu modelu
-    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_35px_sigma_75/"
+    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_Unet_final/U_net_res_35px_sigma_75/"
     
     name_of_model='model_Unet_35px_sigma_75_OS_448_448_3'
     
@@ -62,16 +64,13 @@ if __name__ == "__main__":
     
     
     #%%
-    net.eval()    
-    
-    
+    net.eval()   
     batch=1
     loader=DataLoader(split="Test",path_to_data=path_to_data,output_size=output_size)
     testloader=torch.utils.data.DataLoader(loader,batch_size=batch, num_workers=0, shuffle=False)
     test_files_name=testloader.dataset.files_img
     
     #%%
-
     for kk,(data,data_orig, lbl, img_full, img_orig_full, disc_orig, cup_orig, coordinates) in enumerate(testloader):
         with torch.no_grad():
              

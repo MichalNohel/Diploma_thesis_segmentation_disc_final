@@ -3,6 +3,8 @@
 Created on Fri Apr  7 14:57:51 2023
 
 @author: nohel
+
+Skript pro intereferenci klasického U-Netu na databázi UBMI 
 """
 
 
@@ -17,7 +19,7 @@ from skimage.transform import resize
 
 if __name__ == "__main__": 
     ZAPISOVAT=True
-    ZAPISOVAT_KONTURY=True
+    #ZAPISOVAT_KONTURY=True
     
     batch=1 
     threshold=0.5
@@ -55,21 +57,21 @@ if __name__ == "__main__":
     #Rozliseni_500_500_35px
     
     #SADA01
-    # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada01"
-    # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada01_Output_unet/"  
+    path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada01"
+    path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada01_Output_unet/"  
     
     #SADA02
-    path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada02"
-    path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada02_Output_unet/"
+    # path_to_data="D:\DATA_DP_oci\Data_mereni_UBMI_35px\Orig_sada02"
+    # path_to_results="D:\DATA_DP_oci/Vysledky/Rozliseni_35px/Sada02_Output_unet/"
     
     output_size=(int(448),int(448),int(3))  #Velikost vstupu síte 
     
     sigma_detection=45
     size_of_erosion=40
-    OD_center_available=True
+    OD_center_available=False
     
     # Cesta k naucenemu modelu
-    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_final/U_net_res_35px_sigma_75/"
+    path_to_save_model="D:\Diploma_thesis_segmentation_disc_v2/Diploma_thesis_segmentation_disc_final/Trained_models_Unet_final/U_net_res_35px_sigma_75/"
      
     name_of_model='model_Unet_35px_sigma_75_OS_448_448_3'
     
@@ -81,10 +83,8 @@ if __name__ == "__main__":
         os.makedirs(path_to_results)
     
     #%%
-    net.eval()    
-    
-    batch=1
-    
+    net.eval()     
+    batch=1    
     loader=DataLoader(split="UBMI",path_to_data=path_to_data,output_size=output_size,OD_center_available=OD_center_available,sigma_detection=sigma_detection,size_of_erosion=size_of_erosion)
     UBMI_loader=torch.utils.data.DataLoader(loader,batch_size=batch, num_workers=0, shuffle=False)
     test_files_name=UBMI_loader.dataset.files_img
@@ -224,8 +224,7 @@ if __name__ == "__main__":
             plt.subplot(1,3,1)    
             im_pom_orig=img_orig_neprevzorkovany[0,:,:,:].numpy()/255   
             plt.imshow(im_pom_orig)   
-            plt.title('Original_' + name_of_img)
-            
+            plt.title('Original_' + name_of_img)            
                            
             plt.subplot(1,3,2)    
             plt.imshow(output_mask_disc_final_orig_shape)
