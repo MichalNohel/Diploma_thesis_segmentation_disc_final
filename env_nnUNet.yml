@@ -1,4 +1,4 @@
-name: nnUNet
+name: nnUNet 
 channels:
   - pytorch
   - nvidia
